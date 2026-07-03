@@ -36,50 +36,40 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
         body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; scroll-behavior: smooth; }
 
-        /* Smooth Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--primary); }
         ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--neon); }
 
-        /* Global Dynamic Particle Canvas */
         #bgCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
 
-        /* Premium Diagnostic preloader */
         #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #020617; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .spinner { width: 65px; height: 65px; border: 4px solid rgba(0, 242, 255, 0.1); border-top: 4px solid var(--neon); border-radius: 50%; animation: spin 1s infinite linear; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Ticker Header System */
         .ticker { background: linear-gradient(90deg, #1e1b4b, var(--accent)); color: white; padding: 12px 0; overflow: hidden; font-size: 11px; font-weight: 800; border-bottom: 2px solid var(--neon); box-shadow: 0 5px 25px rgba(0,0,0,0.4); z-index: 10; position: relative; }
         .ticker-move { display: inline-block; white-space: nowrap; animation: move 35s linear infinite; }
         @keyframes move { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
 
-        /* Glassmorphic Navigation Bar */
-        nav { background: rgba(2, 6, 23, 0.75); backdrop-filter: blur(25px); padding: 15px 6%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border); transition: 0.3s; }
+        nav { background: rgba(2, 6, 23, 0.75); backdrop-filter: blur(25px); padding: 15px 6%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border); }
         [data-theme="light"] nav { background: rgba(255, 255, 255, 0.78); }
         
         .container { padding: 40px 6%; max-width: 1300px; margin: auto; }
         
-        /* High-End Scroll Reveal Effects */
-        .reveal { opacity: 0; transform: translateY(50px) scale(0.96); transition: opacity 0.8s cubic-bezier(0.1, 1, 0.1, 1), transform 0.8s cubic-bezier(0.1, 1, 0.1, 1); }
+        .reveal { opacity: 0; transform: translateY(30px) scale(0.98); transition: opacity 0.6s cubic-bezier(0.1, 1, 0.1, 1), transform 0.6s cubic-bezier(0.1, 1, 0.1, 1); }
         .reveal.active { opacity: 1; transform: translateY(0) scale(1); }
 
         .page { display: none; opacity: 0; }
-        .page.active { display: block; animation: smoothPower 0.6s cubic-bezier(0.1, 1, 0.1, 1) forwards; }
-        @keyframes smoothPower { to { opacity: 1; } }
+        .page.active { display: block; opacity: 1; }
 
-        /* Premium Dashboard Cards */
         .card { background: var(--card-bg); backdrop-filter: blur(15px); padding: 35px; border-radius: 30px; border: 1px solid var(--border); margin-bottom: 30px; box-shadow: 0 15px 35px var(--card-shadow); transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .card:hover { border-color: var(--neon); transform: translateY(-8px) scale(1.01); box-shadow: 0 20px 40px rgba(0, 242, 255, 0.12); }
+        .card:hover { border-color: var(--neon); transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0, 242, 255, 0.12); }
 
-        /* Cyber Buttons */
-        .btn-neon { background: var(--accent); color: white; border: none; padding: 16px 36px; border-radius: 18px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 12px; letter-spacing: 1.5px; box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); position: relative; overflow: hidden; }
+        .btn-neon { background: var(--accent); color: white; border: none; padding: 16px 36px; border-radius: 18px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 12px; letter-spacing: 1.5px; box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
         .btn-neon:hover { background: var(--neon); color: black; box-shadow: 0 0 35px var(--neon); transform: translateY(-2px); }
 
         .theme-toggle { background: var(--card-bg); border: 1px solid var(--border); color: var(--text); padding: 10px 22px; border-radius: 50px; font-weight: 800; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
         
-        /* Multi-Factor Fingerprint Device */
         .fingerprint-container { width: 95px; height: 95px; margin: 25px auto; border: 2px solid var(--neon); border-radius: 28px; position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; background: rgba(0, 242, 255, 0.02); }
         .laser { width: 100%; height: 3px; background: var(--neon); box-shadow: 0 0 15px var(--neon); position: absolute; top: 0; display: none; animation: moveLaser 1.8s infinite linear; }
         @keyframes moveLaser { 0% { top: 0%; } 50% { top: 100%; } 100% { top: 0%; } }
@@ -100,13 +90,11 @@
 </head>
 <body>
 
-    <!-- 1. SYSTEM INITIALIZING SCREEN -->
     <div id="preloader">
         <div class="spinner"></div>
         <p style="color: var(--neon); font-weight: 800; font-size: 12px; letter-spacing: 3px; margin-top: 25px;" id="preloadText">CONNECTING SECURE NET NODES...</p>
     </div>
 
-    <!-- Background Particle Canvas Layer -->
     <canvas id="bgCanvas"></canvas>
 
     <div class="ticker">
@@ -127,9 +115,9 @@
     </nav>
 
     <div class="container">
-        <!-- HOME HUB ENTRY PAGE -->
+        <!-- 1. HOME HUB ENTRY PAGE -->
         <div id="homePage" class="page active">
-            <div class="card reveal active" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(30, 41, 59, 0.7)); padding: 90px 30px; border: 1px solid rgba(99, 102, 241, 0.3); text-align: center;">
+            <div class="card" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(30, 41, 59, 0.7)); padding: 90px 30px; border: 1px solid rgba(99, 102, 241, 0.3); text-align: center;">
                 <h1 id="greetTitle" style="font-size: 45px; color:var(--neon); margin-bottom:15px; font-weight:800; text-shadow: 0 0 25px rgba(0, 242, 255, 0.3);">LOADING ENGINES...</h1>
                 <p id="homeSubTitle" style="margin-bottom: 40px; opacity: 0.85; font-size: 19px; max-width: 700px; margin-left: auto; margin-right: auto;"></p>
                 <button class="btn-neon" onclick="playClick(); showPage('loginPage')">AUTHENTICATE ENTRY 🔒</button>
@@ -182,15 +170,15 @@
                     <p style="font-size:17px;">Pending Institutional Liability: <b id="sDue" style="color:var(--danger)">-</b></p>
                 </div>
             </div>
-            <button class="btn-neon reveal" style="width:100%; background: var(--primary); border: 1px solid var(--neon);" onclick="showPage('calendarPage')">SYNCHRONIZE REGIONAL DIARY RUNS 📅</button>
+            <button class="btn-neon reveal" style="width:100%; background: var(--primary); border: 1px solid var(--neon);" onclick="showPage('calendarPage')">LAUNCH REGIONAL SCHEDULES 📅</button>
         </div>
 
         <!-- HIGH PROFILE CAMPUS DIARY -->
         <div id="calendarPage" class="page">
             <button class="btn-neon" onclick="playClick(); showPage('homePage')" style="margin-bottom:30px; background:#334155; box-shadow:none;">← BOOT RETURN PATH</button>
-            <div class="card reveal">
-                <h2 style="color:var(--neon); margin-bottom:25px; border-bottom:2px solid var(--accent); padding-bottom:15px; letter-spacing:1px;" id="calendarTitle">-</h2>
-                <div style="display:grid; gap:16px;">
+            <div class="card">
+                <h2 style="color:var(--neon); margin-bottom:25px; border-bottom:2px solid var(--accent); padding-bottom:15px; letter-spacing:1px;" id="calendarTitle">MUMBAI CAMPUS REGIONAL DIARY</h2>
+                <div style="display:grid; gap:16px; text-align: left;">
                     <p class="reveal" style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--neon);">🌴 <b>JAN 26:</b> Republic Day (National Holiday) 🇮🇳</p>
                     <p class="reveal" style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--accent);">🗓️ <b>FEB 19:</b> Chhatrapati Shivaji Maharaj Jayanti (Maharashtra State Festival) 🚩</p>
                     <p class="reveal" style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--accent);">🌴 <b>MARCH:</b> Mahashivratri & Holi Milan Break 🎨</p>
@@ -208,10 +196,10 @@
     </footer>
 
     <script>
-        // 🛠️ REBRANDING SPECIFICATIONS DIRECT PATH MAP VERBATIM
+        // 🛠️ REBRANDING CONFIGURATION - TARGET FILE DIRECT PATH LOCKED VERBATIM
         const COLLEGE_CONFIG = {
             name: "Shri G.P.M. Degree College", 
-            logoUrl: "logo.gif/sumit college logo _2.jpeg", // Referenced target file verbatim!
+            logoUrl: "logo.gif/sumit college logo _2.jpeg", // Target referenced file verbatim!
             mapsLink: "https://www.google.com/maps/search/Shri+G.P.M.+Degree+College+Andheri+Mumbai"
         };
 
@@ -227,11 +215,10 @@
             "meeraj": { name: "Meeraj", gpa: "3.4", att: 42, status: "FAIL", paid: "₹4,000", due: "₹26,000" }
         };
 
-        // Advanced Interactive Canvas Matrix Engine
+        // Canvas Particle Engine
         const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-        
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
@@ -254,38 +241,37 @@
                 ctx.fillRect(this.x, this.y, this.size, this.size);
             }
         }
-        function initParticles() { for (let i = 0; i < 65; i++) particles.push(new Particle()); }
+        for (let i = 0; i < 65; i++) particles.push(new Particle());
         function animateParticles() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animateParticles); }
-        initParticles(); animateParticles();
+        animateParticles();
 
-        // Scroll Scroll Reveal Animation Engine logic
+        // Optimized Reveal Engine on Scroll
         function revealElements() {
             const reveals = document.querySelectorAll('.reveal');
             reveals.forEach(r => {
                 const windowHeight = window.innerHeight;
                 const elementTop = r.getBoundingClientRect().top;
-                const elementVisible = 120;
-                if (elementTop < windowHeight - elementVisible) r.classList.add('active');
+                if (elementTop < windowHeight - 80) r.classList.add('active');
             });
         }
         window.addEventListener('scroll', revealElements);
 
-        // Preloader Logic Timer
+        // Preloader Logic
         window.addEventListener('load', () => {
             const strings = ["INITIALIZING SECURITY MATRICES...", "LINKING MUMBAI CONSOLES...", "SYSTEM ONLINE NOW."];
             let step = 0;
             const textInterval = setInterval(() => {
                 if(step < strings.length) document.getElementById('preloadText').innerText = strings[step++];
-            }, 500);
+            }, 400);
 
             setTimeout(() => {
                 clearInterval(textInterval);
                 const p = document.getElementById('preloader');
                 p.style.opacity = '0';
-                p.style.transition = '0.5s';
-                setTimeout(() => p.style.display = 'none', 500);
+                p.style.transition = '0.4s';
+                setTimeout(() => p.style.display = 'none', 400);
                 revealElements();
-            }, 1600);
+            }, 1400);
         });
 
         function toggleTheme() {
@@ -305,16 +291,31 @@
             document.getElementById('navTitle').innerText = COLLEGE_CONFIG.name;
             document.getElementById('navLogo').src = COLLEGE_CONFIG.logoUrl;
             document.getElementById('homeSubTitle').innerText = `Elite Production Core Suite optimized for ${COLLEGE_CONFIG.name} Architecture Framework.`;
-            document.getElementById('calendarTitle').innerText = `${COLLEGE_CONFIG.name} | MUMBAI MAHARASHTRA DISTRICT DIARY`;
             document.getElementById('footerCollegeName').innerText = `${COLLEGE_CONFIG.name.toUpperCase()} | ANDHERI DISPATCH NODE`;
-            document.getElementById('liveTickerText').innerHTML = `🔥 ENGINE REPORT: Scroll Physics Active | Canvas Nodes Active | Linked to ${COLLEGE_CONFIG.name} Hub Core.`;
+            document.getElementById('liveTickerText').innerHTML = `🔥 ENGINE REPORT: Navigation Core Stable | Linked to ${COLLEGE_CONFIG.name} Hub Node.`;
+        }
+
+        // Standard Dynamic Routing Mechanism (Fixed Sticking Bug)
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => {
+                p.classList.remove('active');
+                p.style.display = 'none';
+            });
+            const activePage = document.getElementById(id);
+            activePage.style.display = 'block';
+            // Force browser layout processing before active fade-in rule
+            setTimeout(() => {
+                activePage.classList.add('active');
+                revealElements();
+            }, 50);
+            window.scrollTo(0,0);
         }
 
         function openCollegeMap() { window.open(COLLEGE_CONFIG.mapsLink); }
         function speak(t) { const u = new SpeechSynthesisUtterance(t); u.rate = 1.05; window.speechSynthesis.speak(u); }
         
         let audioInit = false;
-        function initAudio() { if(!audioInit) { speak(`Core Portal Initialized.`); audioInit = true; } }
+        function initAudio() { if(!audioInit) { speak(`System Online.`); audioInit = true; } }
         
         function playClick() {
             const context = new (window.AudioContext || window.webkitAudioContext)();
@@ -364,7 +365,6 @@
                     document.getElementById('barFill').style.transition = "width 2s cubic-bezier(0.1, 1, 0.1, 1)";
                     document.getElementById('barFill').style.width = s.att + "%";
                 }, 600);
-                setTimeout(revealElements, 100);
             } else { 
                 document.getElementById('err').style.display = 'block'; 
                 speak("Anomaly alert. Verification fail."); 
@@ -378,19 +378,11 @@
             });
         });
 
-        function showPage(id) {
-            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-            const activePage = document.getElementById(id);
-            activePage.classList.add('active');
-            window.scrollTo(0,0);
-            setTimeout(revealElements, 150);
-        }
-
         function updateTime() {
             const now = new Date();
             document.getElementById('clock').innerText = now.toLocaleTimeString();
             const hour = now.getHours();
-            let greet = "SYSTEM REBOOT SEQUENCE SUCCESSFUL";
+            let greet = "SYSTEM INTERFACE SECURITY LAYER";
             if (hour >= 5 && hour < 12) greet = "GOOD MORNING MAIN RUN TIME";
             else if (hour >= 12 && hour < 17) greet = "GOOD AFTERNOON PROCESS LAYER";
             else if (hour >= 17 && hour < 22) greet = "GOOD EVENING TERMINAL LAYER";
