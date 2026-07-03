@@ -1,6 +1,0 @@
-// 🛠️ REBRANDING SETTINGS - FIXED PATH WITHOUT SPACES
-const COLLEGE_CONFIG = {
-    name: "Shri G.P.M. Degree College", 
-    logoUrl: "logo.gif/college_logo.jpeg", // Ab space ka jhanjhat khatam!
-    mapsLink: "https://www.google.com/maps/search/Shri+G.P.M.+Degree+College+Andheri+Mumbai"
-};
