@@ -3,95 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shri G.P.M Degree College | Ultimate Elite Portal</title>
+    <title>Shri G.P.M Degree College | Professional Suite</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
-        /* CSS Variables for Dynamic Theme Switching */
         :root { 
             --primary: #020617; 
             --accent: #6366f1; 
             --neon: #00f2ff; 
-            --bg: radial-gradient(circle at top, #1e1b4b, #020617); 
+            --bg: radial-gradient(circle at top, #1a103c, #020617); 
             --card-bg: rgba(30, 41, 59, 0.45);
             --text: #ffffff;
             --danger: #ff4757; 
             --success: #2ed573; 
             --border: rgba(255,255,255,0.08);
             --input-bg: rgba(0,0,0,0.5);
+            --card-shadow: rgba(0, 0, 0, 0.6);
         }
 
-        /* Day Mode Colors */
         [data-theme="light"] {
             --primary: #f8fafc;
             --accent: #4f46e5;
             --neon: #0ea5e9;
             --bg: radial-gradient(circle at top, #e0e7ff, #f1f5f9);
-            --card-bg: rgba(255, 255, 255, 0.8);
+            --card-bg: rgba(255, 255, 255, 0.82);
             --text: #0f172a;
             --border: rgba(79, 70, 229, 0.15);
             --input-bg: #ffffff;
+            --card-shadow: rgba(79, 70, 229, 0.08);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; transition: background 0.4s, color 0.4s, border-color 0.4s, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; scroll-behavior: smooth; }
 
-        /* Premium Top Ticker */
-        .ticker { background: linear-gradient(90deg, #1e1b4b, var(--accent)); color: white; padding: 12px 0; overflow: hidden; font-size: 11px; font-weight: 800; border-bottom: 2px solid var(--neon); box-shadow: 0 5px 25px rgba(0,0,0,0.4); }
-        .ticker-move { display: inline-block; white-space: nowrap; animation: move 30s linear infinite; }
+        /* Smooth Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--primary); }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--neon); }
+
+        /* Global Dynamic Particle Canvas */
+        #bgCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
+
+        /* Premium Diagnostic preloader */
+        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #020617; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .spinner { width: 65px; height: 65px; border: 4px solid rgba(0, 242, 255, 0.1); border-top: 4px solid var(--neon); border-radius: 50%; animation: spin 1s infinite linear; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Ticker Header System */
+        .ticker { background: linear-gradient(90deg, #1e1b4b, var(--accent)); color: white; padding: 12px 0; overflow: hidden; font-size: 11px; font-weight: 800; border-bottom: 2px solid var(--neon); box-shadow: 0 5px 25px rgba(0,0,0,0.4); z-index: 10; position: relative; }
+        .ticker-move { display: inline-block; white-space: nowrap; animation: move 35s linear infinite; }
         @keyframes move { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
 
-        /* Glassmorphic Navbar */
-        nav { background: rgba(2, 6, 23, 0.75); backdrop-filter: blur(25px); padding: 15px 6%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border); }
-        [data-theme="light"] nav { background: rgba(255, 255, 255, 0.75); }
+        /* Glassmorphic Navigation Bar */
+        nav { background: rgba(2, 6, 23, 0.75); backdrop-filter: blur(25px); padding: 15px 6%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border); transition: 0.3s; }
+        [data-theme="light"] nav { background: rgba(255, 255, 255, 0.78); }
         
         .container { padding: 40px 6%; max-width: 1300px; margin: auto; }
         
-        /* Smooth Page Transitions */
-        .page { display: none; opacity: 0; transform: translateY(15px) scale(0.98); }
-        .page.active { display: block; animation: smoothPowerUp 0.5s cubic-bezier(0.1, 1, 0.1, 1) forwards; }
-        @keyframes smoothPowerUp { to { opacity: 1; transform: translateY(0) scale(1); } }
+        /* High-End Scroll Reveal Effects */
+        .reveal { opacity: 0; transform: translateY(50px) scale(0.96); transition: opacity 0.8s cubic-bezier(0.1, 1, 0.1, 1), transform 0.8s cubic-bezier(0.1, 1, 0.1, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0) scale(1); }
 
-        /* Premium Cards */
-        .card { background: var(--card-bg); backdrop-filter: blur(15px); padding: 35px; border-radius: 30px; border: 1px solid var(--border); margin-bottom: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.4); position: relative; overflow: hidden; }
-        .card:hover { border-color: var(--neon); transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0, 242, 255, 0.15); }
+        .page { display: none; opacity: 0; }
+        .page.active { display: block; animation: smoothPower 0.6s cubic-bezier(0.1, 1, 0.1, 1) forwards; }
+        @keyframes smoothPower { to { opacity: 1; } }
 
-        /* Neon Interactive Buttons */
-        .btn-neon { background: var(--accent); color: white; border: none; padding: 16px 36px; border-radius: 18px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 12px; letter-spacing: 1.5px; box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
-        .btn-neon:hover { background: var(--neon); color: black; box-shadow: 0 0 35px var(--neon); transform: scale(1.03); }
+        /* Premium Dashboard Cards */
+        .card { background: var(--card-bg); backdrop-filter: blur(15px); padding: 35px; border-radius: 30px; border: 1px solid var(--border); margin-bottom: 30px; box-shadow: 0 15px 35px var(--card-shadow); transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .card:hover { border-color: var(--neon); transform: translateY(-8px) scale(1.01); box-shadow: 0 20px 40px rgba(0, 242, 255, 0.12); }
 
-        /* Theme Toggle Button Style */
-        .theme-toggle { background: var(--card-bg); border: 1px solid var(--border); color: var(--text); padding: 10px 20px; border-radius: 50px; font-weight: 800; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .theme-toggle:hover { border-color: var(--neon); }
+        /* Cyber Buttons */
+        .btn-neon { background: var(--accent); color: white; border: none; padding: 16px 36px; border-radius: 18px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 12px; letter-spacing: 1.5px; box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); position: relative; overflow: hidden; }
+        .btn-neon:hover { background: var(--neon); color: black; box-shadow: 0 0 35px var(--neon); transform: translateY(-2px); }
 
-        /* Biometric Visualizer */
-        .fingerprint-container { width: 95px; height: 95px; margin: 25px auto; border: 2px solid var(--neon); border-radius: 28px; position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; overflow: hidden; background: rgba(0, 242, 255, 0.03); }
+        .theme-toggle { background: var(--card-bg); border: 1px solid var(--border); color: var(--text); padding: 10px 22px; border-radius: 50px; font-weight: 800; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        
+        /* Multi-Factor Fingerprint Device */
+        .fingerprint-container { width: 95px; height: 95px; margin: 25px auto; border: 2px solid var(--neon); border-radius: 28px; position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; background: rgba(0, 242, 255, 0.02); }
         .laser { width: 100%; height: 3px; background: var(--neon); box-shadow: 0 0 15px var(--neon); position: absolute; top: 0; display: none; animation: moveLaser 1.8s infinite linear; }
         @keyframes moveLaser { 0% { top: 0%; } 50% { top: 100%; } 100% { top: 0%; } }
 
-        input { width: 100%; padding: 18px; margin-top: 15px; border-radius: 18px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text); outline: none; font-size: 15px; letter-spacing: 0.5px; }
-        
-        .badge { display: inline-block; padding: 8px 22px; border-radius: 50px; font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
-        .pass { background: rgba(46, 213, 115, 0.15); color: var(--success); border: 1px solid var(--success); }
-        .fail { background: rgba(255, 71, 87, 0.15); color: var(--danger); border: 1px solid var(--danger); animation: blink 1s infinite; }
-        @keyframes blink { 50% { opacity: 0.6; } }
+        input { width: 100%; padding: 18px; margin-top: 15px; border-radius: 18px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text); outline: none; font-size: 15px; }
+        input:focus { border-color: var(--neon); }
 
-        #clock { color: var(--neon); font-weight: 800; border: 1px solid var(--neon); padding: 6px 20px; border-radius: 50px; font-size: 13px; background: rgba(0,0,0,0.2); }
-        footer { padding: 60px 20px; text-align: center; opacity: 0.7; font-size: 12px; letter-spacing: 2.5px; border-top: 1px solid var(--border); margin-top: 40px; }
+        .badge { display: inline-block; padding: 8px 22px; border-radius: 50px; font-weight: 800; font-size: 11px; text-transform: uppercase; }
+        .pass { background: rgba(46, 213, 115, 0.15); color: var(--success); border: 1px solid var(--success); }
+        .fail { background: rgba(255, 71, 87, 0.15); color: var(--danger); border: 1px solid var(--danger); }
+
+        #clock { color: var(--neon); font-weight: 800; border: 1px solid var(--neon); padding: 6px 20px; border-radius: 50px; font-size: 13px; background: rgba(0,0,0,0.1); }
+        footer { padding: 60px 20px; text-align: center; opacity: 0.7; font-size: 12px; letter-spacing: 2.5px; border-top: 1px solid var(--border); margin-top: 60px; }
         
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
         @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
+    <!-- 1. SYSTEM INITIALIZING SCREEN -->
+    <div id="preloader">
+        <div class="spinner"></div>
+        <p style="color: var(--neon); font-weight: 800; font-size: 12px; letter-spacing: 3px; margin-top: 25px;" id="preloadText">CONNECTING SECURE NET NODES...</p>
+    </div>
+
+    <!-- Background Particle Canvas Layer -->
+    <canvas id="bgCanvas"></canvas>
+
     <div class="ticker">
         <div class="ticker-move" id="liveTickerText">
-            🔄 CONNECTING TO SHRI G.P.M. DEGREE COLLEGE SECURE ENGINE NODE...
+            🔄 SHRI G.P.M. DEGREE COLLEGE SECURE INTERACTION CONSOLE RUNNING AT HIGH PRIORITY DEPTH...
         </div>
     </div>
 
-    <nav>
+    <nav id="navbar">
         <div style="display:flex; align-items:center; gap:14px; cursor:pointer;" onclick="location.reload()">
             <img id="navLogo" src="" width="48" height="48" style="border-radius:50%; border:2px solid var(--neon); object-fit: cover;">
             <p id="navTitle" style="font-weight:900; color:var(--neon); letter-spacing:1.5px; font-size:17px; text-transform: uppercase;"></p>
@@ -103,21 +127,21 @@
     </nav>
 
     <div class="container">
-        <!-- 1. HOME GATEWAY PAGE -->
+        <!-- HOME HUB ENTRY PAGE -->
         <div id="homePage" class="page active">
-            <div class="card" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(30, 41, 59, 0.7)); padding: 90px 30px; border: 1px solid rgba(99, 102, 241, 0.3); text-align: center;">
-                <h1 id="greetTitle" style="font-size: 45px; color:var(--neon); margin-bottom:15px; font-weight:800; text-shadow: 0 0 25px rgba(0, 242, 255, 0.3);">INITIALIZING SECURE PORTAL...</h1>
+            <div class="card reveal active" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(30, 41, 59, 0.7)); padding: 90px 30px; border: 1px solid rgba(99, 102, 241, 0.3); text-align: center;">
+                <h1 id="greetTitle" style="font-size: 45px; color:var(--neon); margin-bottom:15px; font-weight:800; text-shadow: 0 0 25px rgba(0, 242, 255, 0.3);">LOADING ENGINES...</h1>
                 <p id="homeSubTitle" style="margin-bottom: 40px; opacity: 0.85; font-size: 19px; max-width: 700px; margin-left: auto; margin-right: auto;"></p>
-                <button class="btn-neon" onclick="playClick(); showPage('loginPage')">ENTER SECURE GATEWAY 🔐</button>
+                <button class="btn-neon" onclick="playClick(); showPage('loginPage')">AUTHENTICATE ENTRY 🔒</button>
             </div>
             
-            <div class="grid-2" style="margin-top:25px;">
-                <div class="card" onclick="playClick(); showPage('calendarPage')" style="cursor:pointer; text-align: center;"><p style="font-size:45px; margin-bottom:10px;">📅</p><h4>MUMBAI REGION CALENDAR</h4></div>
-                <div class="card" onclick="playClick(); openCollegeMap()" style="cursor:pointer; text-align: center;"><p style="font-size:45px; margin-bottom:10px;">📍</p><h4>CAMPUS GEOLOCATION MAP</h4></div>
+            <div class="grid-2" style="margin-top:10px;">
+                <div class="card reveal" onclick="playClick(); showPage('calendarPage')" style="cursor:pointer; text-align: center;"><p style="font-size:45px; margin-bottom:10px;">📅</p><h4>MUMBAI REGION CALENDAR</h4></div>
+                <div class="card reveal" onclick="playClick(); openCollegeMap()" style="cursor:pointer; text-align: center;"><p style="font-size:45px; margin-bottom:10px;">📍</p><h4>CAMPUS GEOLOCATION MAP</h4></div>
             </div>
         </div>
 
-        <!-- 2. MULTI-FACTOR AUTHENTICATION PAGE -->
+        <!-- IDENTITY PROTECTION CHECK -->
         <div id="loginPage" class="page">
             <div class="card" style="max-width: 480px; margin: auto; border: 2px solid var(--neon);">
                 <h2 style="color:var(--neon); margin-bottom:15px; letter-spacing:2px; text-align: center; font-size:22px;">IDENTITY VERIFICATION</h2>
@@ -125,74 +149,73 @@
                     <div class="laser" id="laser"></div>
                     <span style="font-size:48px;">🖐️</span>
                 </div>
-                <p id="fpStatus" style="font-size:11px; color:var(--neon); font-weight:800; margin-bottom:20px; letter-spacing:1.5px; text-align: center;">[ TAP SYMBOL TO SCAN BIOMETRIC ]</p>
+                <p id="fpStatus" style="font-size:11px; color:var(--neon); font-weight:800; margin-bottom:20px; letter-spacing:1.5px; text-align: center;">[ TAP SYSTEM INTERFACE TO COMPUTE DATA ]</p>
                 <input type="text" id="userInput" placeholder="Student Full Name (e.g., Sumit Singh)">
-                <input type="password" id="passInput" placeholder="Security Password Protocol">
-                <button class="btn-neon" style="width:100%; margin-top:35px; padding:18px; font-size:13px;" onclick="handleLogin()">EXECUTE SECURITY CHECK</button>
-                <p id="err" style="color:var(--danger); display:none; margin-top:20px; font-weight:800; text-align: center;">❌ ACCESS SCHEME FAIL: CREDENTIAL MATCH NOT FOUND</p>
+                <input type="password" id="passInput" placeholder="Security Encryption Key">
+                <button class="btn-neon" style="width:100%; margin-top:35px; padding:18px; font-size:13px;" onclick="handleLogin()">RUN SECURITY DIAGNOSTIC</button>
+                <p id="err" style="color:var(--danger); display:none; margin-top:20px; font-weight:800; text-align: center;">❌ AUTHENTICATION ANOMALY: DATA MATCH EXCEPTION</p>
             </div>
         </div>
 
-        <!-- 3. PREMIUM STUDENT ANALYTICS DASHBOARD -->
+        <!-- PREMIUM SCORECARD HUB -->
         <div id="dashPage" class="page">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:35px; flex-wrap: wrap; gap:15px;">
                 <h2 id="welcomeUser" style="color:var(--neon); font-size: 32px; font-weight: 800;">-</h2>
-                <button class="btn-neon" style="background:var(--danger); padding:12px 24px;" onclick="location.reload()">CLEAR ACADEMIC SESSION</button>
+                <button class="btn-neon" style="background:var(--danger); padding:12px 24px;" onclick="location.reload()">TERMINATE SYSTEM SESSION</button>
             </div>
-            <div class="card" style="text-align: center;">
+            <div class="card reveal">
                 <div style="display:flex; justify-content:space-around; align-items:center; margin-bottom:30px; flex-wrap: wrap; gap:20px;">
-                    <div><p style="font-size:11px; color:var(--neon); letter-spacing:2.5px; font-weight:800; margin-bottom:5px;">METRIC PERFORMANCE (GPA)</p><h2 id="sGPA" style="font-size:55px; font-weight:800;">0.0</h2></div>
+                    <div><p style="font-size:11px; color:var(--neon); letter-spacing:2.5px; font-weight:800; margin-bottom:5px;">METRIC PERFORMANCE PROFILE (GPA)</p><h2 id="sGPA" style="font-size:55px; font-weight:800;">0.0</h2></div>
                     <div id="resBadge" class="badge" style="font-size:13px; padding:12px 35px;">-</div>
                 </div>
-                <div style="text-align:left; background: rgba(0,0,0,0.1); padding: 20px; border-radius: 20px;">
-                    <p style="font-size:13px; font-weight:800; letter-spacing:0.5px;">ATTENDANCE PROFILE RATIO: <span id="sAttText" style="color:var(--neon); font-size:16px;">0%</span></p>
-                    <div style="width:100%; height:12px; background:rgba(0,0,0,0.06); border-radius:20px; overflow:hidden; margin-top:12px; border: 1px solid var(--border)">
-                        <div id="barFill" style="height:100%; background: linear-gradient(90deg, var(--accent), var(--neon)); width:0; transition: 2.2s cubic-bezier(0.1, 1, 0.1, 1); box-shadow: 0 0 20px var(--neon);"></div>
+                <div style="text-align:left; background: rgba(0,0,0,0.1); padding: 25px; border-radius: 20px; border: 1px solid var(--border)">
+                    <p style="font-size:13px; font-weight:800; letter-spacing:0.5px;">ATTENDANCE VALUE ANALYSIS: <span id="sAttText" style="color:var(--neon); font-size:16px;">0%</span></p>
+                    <div style="width:100%; height:12px; background:rgba(0,0,0,0.06); border-radius:20px; overflow:hidden; margin-top:12px;">
+                        <div id="barFill" style="height:100%; background: linear-gradient(90deg, var(--accent), var(--neon)); width:0; box-shadow: 0 0 20px var(--neon);"></div>
                     </div>
                 </div>
             </div>
-            <div class="card">
-                <h3 style="color:var(--neon); margin-bottom:22px; border-bottom:1px solid var(--border); padding-bottom:12px; font-size:18px; letter-spacing:1px;">FINANCIAL TRANSACTION RECORD</h3>
+            <div class="card reveal">
+                <h3 style="color:var(--neon); margin-bottom:22px; border-bottom:1px solid var(--border); padding-bottom:12px; font-size:18px; letter-spacing:1px;">FINANCIAL METRIC LOG SHEET</h3>
                 <div style="display: flex; flex-direction: column; gap: 12px;">
-                    <p style="font-size:17px;">Total Cleared Payments: <b id="sPaid" style="color:var(--success)">-</b></p>
-                    <p style="font-size:17px;">Outstanding Institutional Balance: <b id="sDue" style="color:var(--danger)">-</b></p>
+                    <p style="font-size:17px;">Cleared Transactions: <b id="sPaid" style="color:var(--success)">-</b></p>
+                    <p style="font-size:17px;">Pending Institutional Liability: <b id="sDue" style="color:var(--danger)">-</b></p>
                 </div>
             </div>
-            <button class="btn-neon" style="width:100%; background: var(--primary); border: 1px solid var(--neon);" onclick="showPage('calendarPage')">LAUNCH ENTIRE ACADEMIC SCHEDULE 📅</button>
+            <button class="btn-neon reveal" style="width:100%; background: var(--primary); border: 1px solid var(--neon);" onclick="showPage('calendarPage')">SYNCHRONIZE REGIONAL DIARY RUNS 📅</button>
         </div>
 
-        <!-- 4. OFFICIAL MUMBAI CAMPUS CALENDAR PAGE -->
+        <!-- HIGH PROFILE CAMPUS DIARY -->
         <div id="calendarPage" class="page">
-            <button class="btn-neon" onclick="playClick(); showPage('homePage')" style="margin-bottom:30px; background:#334155; box-shadow:none;">← BACK TO MAIN ENGINE</button>
-            <div class="card">
-                <h2 style="color:var(--neon); margin-bottom:25px; border-bottom:2px solid var(--accent); padding-bottom:15px; letter-spacing:1px;" id="calendarTitle">CAMPUS METROPOLITAN SCHEDULE</h2>
+            <button class="btn-neon" onclick="playClick(); showPage('homePage')" style="margin-bottom:30px; background:#334155; box-shadow:none;">← BOOT RETURN PATH</button>
+            <div class="card reveal">
+                <h2 style="color:var(--neon); margin-bottom:25px; border-bottom:2px solid var(--accent); padding-bottom:15px; letter-spacing:1px;" id="calendarTitle">-</h2>
                 <div style="display:grid; gap:16px;">
-                    <p style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--neon);">🌴 <b>JAN 26:</b> Republic Day (National Holiday) 🇮🇳</p>
-                    <p style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--accent);">🗓️ <b>FEB 19:</b> Chhatrapati Shivaji Maharaj Jayanti (Maharashtra State Festival) 🚩</p>
-                    <p style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--accent);">🌴 <b>MARCH:</b> Mahashivratri & Holi Milan Break 🎨</p>
-                    <p style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--neon);">🗓️ <b>APRIL 01:</b> Gudi Padwa (Maharashtra New Year Academic Off) ✨</p>
-                    <p style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--accent);">📝 <b>MAY 01:</b> Maharashtra Day / Lab Practical Examinations Start 🏛️</p>
-                    <p style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--danger);">🚨 <b>SEPTEMBER:</b> Ganeshotsav Mid-Term Institutional Vacation 🌺</p>
+                    <p class="reveal" style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--neon);">🌴 <b>JAN 26:</b> Republic Day (National Holiday) 🇮🇳</p>
+                    <p class="reveal" style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--accent);">🗓️ <b>FEB 19:</b> Chhatrapati Shivaji Maharaj Jayanti (Maharashtra State Festival) 🚩</p>
+                    <p class="reveal" style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--accent);">🌴 <b>MARCH:</b> Mahashivratri & Holi Milan Break 🎨</p>
+                    <p class="reveal" style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--neon);">🗓️ <b>APRIL 01:</b> Gudi Padwa (Maharashtra New Year Academic Off) ✨</p>
+                    <p class="reveal" style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--accent);">📝 <b>MAY 01:</b> Maharashtra Day / Lab Practical Examinations Start 🏛️</p>
+                    <p class="reveal" style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--danger);">🚨 <b>SEPTEMBER:</b> Ganeshotsav Mid-Term Institutional Vacation 🌺</p>
                 </div>
             </div>
         </div>
     </div>
 
     <footer>
-        <p>CORE PORTAL OPERATIONAL ARCHITECTURE FOR <b style="color:var(--neon); letter-spacing:3px;">SUMIT SINGH</b></p>
-        <p style="font-size:11px; opacity:0.6; margin-top:12px; letter-spacing:1px;" id="footerCollegeName"></p>
+        <p>SYSTEM CORE DESIGN COMPILED AND OPERATED FOR <b style="color:var(--neon); letter-spacing:3px;">SUMIT SINGH</b></p>
+        <p style="font-size:11px; opacity:0.6; margin-top:12px; letter-spacing:1.5px;" id="footerCollegeName"></p>
     </footer>
 
     <script>
-        // 🛠️ REBRANDING SETTINGS LINKED VERBATIM WITH LOGO FOLDER
+        // 🛠️ REBRANDING SPECIFICATIONS DIRECT PATH MAP VERBATIM
         const COLLEGE_CONFIG = {
             name: "Shri G.P.M. Degree College", 
-            logoUrl: "logo.gif/sumit college logo _2.jpeg", // Target referenced file verbatim!
+            logoUrl: "logo.gif/sumit college logo _2.jpeg", // Referenced target file verbatim!
             mapsLink: "https://www.google.com/maps/search/Shri+G.P.M.+Degree+College+Andheri+Mumbai"
         };
 
         const MASTER_PASS = "QWqw1234@";
-        
         const database = {
             "sumit singh": { name: "Sumit Singh", gpa: "9.8", att: 99, status: "PASS", paid: "₹30,000", due: "₹0" },
             "radha": { name: "Radha", gpa: "9.6", att: 95, status: "PASS", paid: "₹25,000", due: "₹5,000" },
@@ -204,7 +227,67 @@
             "meeraj": { name: "Meeraj", gpa: "3.4", att: 42, status: "FAIL", paid: "₹4,000", due: "₹26,000" }
         };
 
-        // Theme Switcher Logic Function
+        // Advanced Interactive Canvas Matrix Engine
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+            }
+            update() {
+                this.x += this.speedX; this.y += this.speedY;
+                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = document.body.hasAttribute('data-theme') ? 'rgba(79, 70, 229, 0.2)' : 'rgba(0, 242, 255, 0.25)';
+                ctx.fillRect(this.x, this.y, this.size, this.size);
+            }
+        }
+        function initParticles() { for (let i = 0; i < 65; i++) particles.push(new Particle()); }
+        function animateParticles() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animateParticles); }
+        initParticles(); animateParticles();
+
+        // Scroll Scroll Reveal Animation Engine logic
+        function revealElements() {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(r => {
+                const windowHeight = window.innerHeight;
+                const elementTop = r.getBoundingClientRect().top;
+                const elementVisible = 120;
+                if (elementTop < windowHeight - elementVisible) r.classList.add('active');
+            });
+        }
+        window.addEventListener('scroll', revealElements);
+
+        // Preloader Logic Timer
+        window.addEventListener('load', () => {
+            const strings = ["INITIALIZING SECURITY MATRICES...", "LINKING MUMBAI CONSOLES...", "SYSTEM ONLINE NOW."];
+            let step = 0;
+            const textInterval = setInterval(() => {
+                if(step < strings.length) document.getElementById('preloadText').innerText = strings[step++];
+            }, 500);
+
+            setTimeout(() => {
+                clearInterval(textInterval);
+                const p = document.getElementById('preloader');
+                p.style.opacity = '0';
+                p.style.transition = '0.5s';
+                setTimeout(() => p.style.display = 'none', 500);
+                revealElements();
+            }, 1600);
+        });
+
         function toggleTheme() {
             const currentTheme = document.body.getAttribute('data-theme');
             const btn = document.getElementById('themeBtn');
@@ -221,38 +304,38 @@
         function setupRebranding() {
             document.getElementById('navTitle').innerText = COLLEGE_CONFIG.name;
             document.getElementById('navLogo').src = COLLEGE_CONFIG.logoUrl;
-            document.getElementById('homeSubTitle').innerText = `Elite Digital Framework System optimized for ${COLLEGE_CONFIG.name} (Andheri Campus, Mumbai Region).`;
-            document.getElementById('calendarTitle').innerText = `${COLLEGE_CONFIG.name} | BRiHANMUMBAl REGIONAL SCHEDULE`;
-            document.getElementById('footerCollegeName').innerText = `${COLLEGE_CONFIG.name.toUpperCase()} | METROPOLITAN CAMPUS, ANDHERI (W), MUMBAI`;
-            document.getElementById('liveTickerText').innerHTML = `🔥 SYSTEM LIVE: Day/Night Toggle Matrix Enabled | 🌴 Mumbai Node Connected | 📍 Location: Andheri Campus Engine.`;
+            document.getElementById('homeSubTitle').innerText = `Elite Production Core Suite optimized for ${COLLEGE_CONFIG.name} Architecture Framework.`;
+            document.getElementById('calendarTitle').innerText = `${COLLEGE_CONFIG.name} | MUMBAI MAHARASHTRA DISTRICT DIARY`;
+            document.getElementById('footerCollegeName').innerText = `${COLLEGE_CONFIG.name.toUpperCase()} | ANDHERI DISPATCH NODE`;
+            document.getElementById('liveTickerText').innerHTML = `🔥 ENGINE REPORT: Scroll Physics Active | Canvas Nodes Active | Linked to ${COLLEGE_CONFIG.name} Hub Core.`;
         }
 
         function openCollegeMap() { window.open(COLLEGE_CONFIG.mapsLink); }
         function speak(t) { const u = new SpeechSynthesisUtterance(t); u.rate = 1.05; window.speechSynthesis.speak(u); }
         
         let audioInit = false;
-        function initAudio() { if(!audioInit) { speak(`System Interface Synced.`); audioInit = true; } }
+        function initAudio() { if(!audioInit) { speak(`Core Portal Initialized.`); audioInit = true; } }
         
         function playClick() {
             const context = new (window.AudioContext || window.webkitAudioContext)();
             const osc = context.createOscillator();
             const gain = context.createGain();
-            osc.frequency.setValueAtTime(880, context.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.12);
+            osc.frequency.setValueAtTime(640, context.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.1);
             osc.connect(gain); gain.connect(context.destination);
-            osc.start(); osc.stop(context.currentTime + 0.12);
+            osc.start(); osc.stop(context.currentTime + 0.1);
         }
 
         function startScan() {
             playClick();
             const l = document.getElementById('laser');
             l.style.display = 'block';
-            document.getElementById('fpStatus').innerText = "[ BIOMETRIC MATRIX COMPUTING... ]";
-            speak("Scanning biometric data.");
+            document.getElementById('fpStatus').innerText = "[ EVALUATING SCHEMATICS... ]";
+            speak("Evaluating signature.");
             setTimeout(() => { 
                 l.style.display = 'none'; 
-                document.getElementById('fpStatus').innerText = "[ SCAN COMPLETED & SECURED ✅ ]"; 
-                speak("Bio signature authorized."); 
+                document.getElementById('fpStatus').innerText = "[ CORE KEY APPROVED ✅ ]"; 
+                speak("Access sequence complete."); 
             }, 2300);
         }
 
@@ -261,7 +344,7 @@
             const pass = document.getElementById('passInput').value;
             if (database[name] && pass === MASTER_PASS) {
                 const s = database[name];
-                document.getElementById('welcomeUser').innerText = "Access Level Granted: " + s.name;
+                document.getElementById('welcomeUser').innerText = "Console Core User: " + s.name;
                 document.getElementById('sGPA').innerText = s.gpa;
                 document.getElementById('sPaid').innerText = s.paid;
                 document.getElementById('sDue').innerText = s.due;
@@ -272,15 +355,19 @@
                 showPage('dashPage');
                 speak("Welcome back " + s.name);
                 if(s.gpa > 9.5 || name === "sumit singh") { 
-                    confetti({ particleCount: 160, spread: 80, origin: { y: 0.55 } }); 
+                    confetti({ particleCount: 160, spread: 85, origin: { y: 0.55 } }); 
                     if(name === "sumit singh") {
-                        speak("System alert: Congratulations Sumit! You are recorded as the Department Topper.");
+                        speak("System log notification. Congratulations Sumit! You are the Department Topper.");
                     }
                 }
-                setTimeout(() => document.getElementById('barFill').style.width = s.att + "%", 600);
+                setTimeout(() => {
+                    document.getElementById('barFill').style.transition = "width 2s cubic-bezier(0.1, 1, 0.1, 1)";
+                    document.getElementById('barFill').style.width = s.att + "%";
+                }, 600);
+                setTimeout(revealElements, 100);
             } else { 
                 document.getElementById('err').style.display = 'block'; 
-                speak("Access denied."); 
+                speak("Anomaly alert. Verification fail."); 
             }
         }
 
@@ -292,19 +379,21 @@
         });
 
         function showPage(id) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+            const activePage = document.getElementById(id);
+            activePage.classList.add('active');
             window.scrollTo(0,0);
+            setTimeout(revealElements, 150);
         }
 
         function updateTime() {
             const now = new Date();
             document.getElementById('clock').innerText = now.toLocaleTimeString();
             const hour = now.getHours();
-            let greet = "SYSTEM ACTIVE: SECURITY PROTOCOL";
-            if (hour >= 5 && hour < 12) greet = "GOOD MORNING CONSOLE";
-            else if (hour >= 12 && hour < 17) greet = "GOOD AFTERNOON HUB";
-            else if (hour >= 17 && hour < 22) greet = "GOOD EVENING TERMINAL";
+            let greet = "SYSTEM REBOOT SEQUENCE SUCCESSFUL";
+            if (hour >= 5 && hour < 12) greet = "GOOD MORNING MAIN RUN TIME";
+            else if (hour >= 12 && hour < 17) greet = "GOOD AFTERNOON PROCESS LAYER";
+            else if (hour >= 17 && hour < 22) greet = "GOOD EVENING TERMINAL LAYER";
             document.getElementById('greetTitle').innerText = greet + " ✨";
             setTimeout(updateTime, 1000);
         }
