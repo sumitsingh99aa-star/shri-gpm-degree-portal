@@ -7,18 +7,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
+        /* CSS Variables for Dynamic Theme Switching */
         :root { 
             --primary: #020617; 
             --accent: #6366f1; 
             --neon: #00f2ff; 
             --bg: radial-gradient(circle at top, #1e1b4b, #020617); 
             --card-bg: rgba(30, 41, 59, 0.45);
+            --text: #ffffff;
             --danger: #ff4757; 
             --success: #2ed573; 
-            --gold: #f1c40f; 
+            --border: rgba(255,255,255,0.08);
+            --input-bg: rgba(0,0,0,0.5);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        body { background: var(--bg); color: white; min-height: 100vh; overflow-x: hidden; }
+
+        /* Day Mode Colors */
+        [data-theme="light"] {
+            --primary: #f8fafc;
+            --accent: #4f46e5;
+            --neon: #0ea5e9;
+            --bg: radial-gradient(circle at top, #e0e7ff, #f1f5f9);
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --text: #0f172a;
+            --border: rgba(79, 70, 229, 0.15);
+            --input-bg: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; transition: background 0.4s, color 0.4s, border-color 0.4s, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
 
         /* Premium Top Ticker */
         .ticker { background: linear-gradient(90deg, #1e1b4b, var(--accent)); color: white; padding: 12px 0; overflow: hidden; font-size: 11px; font-weight: 800; border-bottom: 2px solid var(--neon); box-shadow: 0 5px 25px rgba(0,0,0,0.4); }
@@ -26,7 +42,9 @@
         @keyframes move { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
 
         /* Glassmorphic Navbar */
-        nav { background: rgba(2, 6, 23, 0.75); backdrop-filter: blur(25px); padding: 15px 6%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        nav { background: rgba(2, 6, 23, 0.75); backdrop-filter: blur(25px); padding: 15px 6%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border); }
+        [data-theme="light"] nav { background: rgba(255, 255, 255, 0.75); }
+        
         .container { padding: 40px 6%; max-width: 1300px; margin: auto; }
         
         /* Smooth Page Transitions */
@@ -35,52 +53,53 @@
         @keyframes smoothPowerUp { to { opacity: 1; transform: translateY(0) scale(1); } }
 
         /* Premium Cards */
-        .card { background: var(--card-bg); backdrop-filter: blur(15px); padding: 35px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.6); position: relative; overflow: hidden; }
-        .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(45deg, transparent, rgba(0, 242, 255, 0.03), transparent); transform: translateX(-100%); transition: 0.6s; }
-        .card:hover::before { transform: translateX(100%); }
+        .card { background: var(--card-bg); backdrop-filter: blur(15px); padding: 35px; border-radius: 30px; border: 1px solid var(--border); margin-bottom: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.4); position: relative; overflow: hidden; }
         .card:hover { border-color: var(--neon); transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0, 242, 255, 0.15); }
 
         /* Neon Interactive Buttons */
-        .btn-neon { background: var(--accent); color: white; border: none; padding: 16px 36px; border-radius: 18px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 12px; letter-spacing: 1.5px; box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
+        .btn-neon { background: var(--accent); color: white; border: none; padding: 16px 36px; border-radius: 18px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 12px; letter-spacing: 1.5px; box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
         .btn-neon:hover { background: var(--neon); color: black; box-shadow: 0 0 35px var(--neon); transform: scale(1.03); }
+
+        /* Theme Toggle Button Style */
+        .theme-toggle { background: var(--card-bg); border: 1px solid var(--border); color: var(--text); padding: 10px 20px; border-radius: 50px; font-weight: 800; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .theme-toggle:hover { border-color: var(--neon); }
 
         /* Biometric Visualizer */
         .fingerprint-container { width: 95px; height: 95px; margin: 25px auto; border: 2px solid var(--neon); border-radius: 28px; position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; overflow: hidden; background: rgba(0, 242, 255, 0.03); }
         .laser { width: 100%; height: 3px; background: var(--neon); box-shadow: 0 0 15px var(--neon); position: absolute; top: 0; display: none; animation: moveLaser 1.8s infinite linear; }
         @keyframes moveLaser { 0% { top: 0%; } 50% { top: 100%; } 100% { top: 0%; } }
 
-        input { width: 100%; padding: 18px; margin-top: 15px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.12); background: rgba(0,0,0,0.5); color: white; outline: none; font-size: 15px; letter-spacing: 0.5px; }
-        input:focus { border-color: var(--neon); box-shadow: 0 0 15px rgba(0, 242, 255, 0.1); }
+        input { width: 100%; padding: 18px; margin-top: 15px; border-radius: 18px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text); outline: none; font-size: 15px; letter-spacing: 0.5px; }
         
         .badge { display: inline-block; padding: 8px 22px; border-radius: 50px; font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
         .pass { background: rgba(46, 213, 115, 0.15); color: var(--success); border: 1px solid var(--success); }
         .fail { background: rgba(255, 71, 87, 0.15); color: var(--danger); border: 1px solid var(--danger); animation: blink 1s infinite; }
         @keyframes blink { 50% { opacity: 0.6; } }
 
-        #clock { color: var(--neon); font-weight: 800; border: 1px solid rgba(0, 242, 255, 0.3); padding: 6px 20px; border-radius: 50px; font-size: 13px; background: rgba(0,0,0,0.4); backdrop-filter: blur(5px); }
-        footer { padding: 60px 20px; text-align: center; opacity: 0.7; font-size: 12px; letter-spacing: 2.5px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 40px; }
+        #clock { color: var(--neon); font-weight: 800; border: 1px solid var(--neon); padding: 6px 20px; border-radius: 50px; font-size: 13px; background: rgba(0,0,0,0.2); }
+        footer { padding: 60px 20px; text-align: center; opacity: 0.7; font-size: 12px; letter-spacing: 2.5px; border-top: 1px solid var(--border); margin-top: 40px; }
         
-        /* Grid Adjustments */
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
         @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
     </style>
 </head>
-<body onclick="initAudio()">
+<body>
 
-    <!-- Premium Live Ticker Notification -->
     <div class="ticker">
         <div class="ticker-move" id="liveTickerText">
             🔄 CONNECTING TO SHRI G.P.M. DEGREE COLLEGE SECURE ENGINE NODE...
         </div>
     </div>
 
-    <!-- Navigation Header -->
     <nav>
         <div style="display:flex; align-items:center; gap:14px; cursor:pointer;" onclick="location.reload()">
             <img id="navLogo" src="" width="48" height="48" style="border-radius:50%; border:2px solid var(--neon); object-fit: cover;">
             <p id="navTitle" style="font-weight:900; color:var(--neon); letter-spacing:1.5px; font-size:17px; text-transform: uppercase;"></p>
         </div>
-        <div id="clock">00:00:00</div>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙 NIGHT</button>
+            <div id="clock">00:00:00</div>
+        </div>
     </nav>
 
     <div class="container">
@@ -94,13 +113,13 @@
             
             <div class="grid-2" style="margin-top:25px;">
                 <div class="card" onclick="playClick(); showPage('calendarPage')" style="cursor:pointer; text-align: center;"><p style="font-size:45px; margin-bottom:10px;">📅</p><h4>MUMBAI REGION CALENDAR</h4></div>
-                <div class="card" onclick="playClick(); openCollegeMap()" style="cursor:pointer; text-align: center;"><p style="font-size:45px; margin-bottom:10px;">📍</p><h4>CAMPUS GEOLOCATION Map</h4></div>
+                <div class="card" onclick="playClick(); openCollegeMap()" style="cursor:pointer; text-align: center;"><p style="font-size:45px; margin-bottom:10px;">📍</p><h4>CAMPUS GEOLOCATION MAP</h4></div>
             </div>
         </div>
 
         <!-- 2. MULTI-FACTOR AUTHENTICATION PAGE -->
         <div id="loginPage" class="page">
-            <div class="card" style="max-width: 480px; margin: auto; border: 2px solid var(--neon); background: rgba(2, 6, 23, 0.95);">
+            <div class="card" style="max-width: 480px; margin: auto; border: 2px solid var(--neon);">
                 <h2 style="color:var(--neon); margin-bottom:15px; letter-spacing:2px; text-align: center; font-size:22px;">IDENTITY VERIFICATION</h2>
                 <div class="fingerprint-container" onclick="startScan()">
                     <div class="laser" id="laser"></div>
@@ -110,7 +129,7 @@
                 <input type="text" id="userInput" placeholder="Student Full Name (e.g., Sumit Singh)">
                 <input type="password" id="passInput" placeholder="Security Password Protocol">
                 <button class="btn-neon" style="width:100%; margin-top:35px; padding:18px; font-size:13px;" onclick="handleLogin()">EXECUTE SECURITY CHECK</button>
-                <p id="err" style="color:var(--danger); display:none; margin-top:20px; font-weight:800; text-align: center; text-shadow: 0 0 10px var(--danger);">❌ ACCESS SCHEME FAIL: CREDENTIAL MATCH NOT FOUND</p>
+                <p id="err" style="color:var(--danger); display:none; margin-top:20px; font-weight:800; text-align: center;">❌ ACCESS SCHEME FAIL: CREDENTIAL MATCH NOT FOUND</p>
             </div>
         </div>
 
@@ -118,43 +137,42 @@
         <div id="dashPage" class="page">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:35px; flex-wrap: wrap; gap:15px;">
                 <h2 id="welcomeUser" style="color:var(--neon); font-size: 32px; font-weight: 800;">-</h2>
-                <button class="btn-neon" style="background:var(--danger); padding:12px 24px; box-shadow: 0 0 15px rgba(255, 71, 87, 0.3);" onclick="location.reload()">CLEAR ACADEMIC SESSION</button>
+                <button class="btn-neon" style="background:var(--danger); padding:12px 24px;" onclick="location.reload()">CLEAR ACADEMIC SESSION</button>
             </div>
             <div class="card" style="text-align: center;">
                 <div style="display:flex; justify-content:space-around; align-items:center; margin-bottom:30px; flex-wrap: wrap; gap:20px;">
                     <div><p style="font-size:11px; color:var(--neon); letter-spacing:2.5px; font-weight:800; margin-bottom:5px;">METRIC PERFORMANCE (GPA)</p><h2 id="sGPA" style="font-size:55px; font-weight:800;">0.0</h2></div>
                     <div id="resBadge" class="badge" style="font-size:13px; padding:12px 35px;">-</div>
                 </div>
-                <div style="text-align:left; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 20px;">
+                <div style="text-align:left; background: rgba(0,0,0,0.1); padding: 20px; border-radius: 20px;">
                     <p style="font-size:13px; font-weight:800; letter-spacing:0.5px;">ATTENDANCE PROFILE RATIO: <span id="sAttText" style="color:var(--neon); font-size:16px;">0%</span></p>
-                    <div style="width:100%; height:12px; background:rgba(255,255,255,0.06); border-radius:20px; overflow:hidden; margin-top:12px; border: 1px solid rgba(255,255,255,0.08);">
+                    <div style="width:100%; height:12px; background:rgba(0,0,0,0.06); border-radius:20px; overflow:hidden; margin-top:12px; border: 1px solid var(--border)">
                         <div id="barFill" style="height:100%; background: linear-gradient(90deg, var(--accent), var(--neon)); width:0; transition: 2.2s cubic-bezier(0.1, 1, 0.1, 1); box-shadow: 0 0 20px var(--neon);"></div>
                     </div>
                 </div>
             </div>
-            <div class="card" style="background: rgba(30, 41, 59, 0.75);">
-                <h3 style="color:var(--neon); margin-bottom:22px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:12px; font-size:18px; letter-spacing:1px;">FINANCIAL TRANSACTION RECORD</h3>
+            <div class="card">
+                <h3 style="color:var(--neon); margin-bottom:22px; border-bottom:1px solid var(--border); padding-bottom:12px; font-size:18px; letter-spacing:1px;">FINANCIAL TRANSACTION RECORD</h3>
                 <div style="display: flex; flex-direction: column; gap: 12px;">
                     <p style="font-size:17px;">Total Cleared Payments: <b id="sPaid" style="color:var(--success)">-</b></p>
                     <p style="font-size:17px;">Outstanding Institutional Balance: <b id="sDue" style="color:var(--danger)">-</b></p>
                 </div>
             </div>
-            <button class="btn-neon" style="width:100%; background: var(--primary); border: 1px solid rgba(0, 242, 255, 0.4);" onclick="showPage('calendarPage')">LAUNCH ENTIRE ACADEMIC SCHEDULE 📅</button>
+            <button class="btn-neon" style="width:100%; background: var(--primary); border: 1px solid var(--neon);" onclick="showPage('calendarPage')">LAUNCH ENTIRE ACADEMIC SCHEDULE 📅</button>
         </div>
 
         <!-- 4. OFFICIAL MUMBAI CAMPUS CALENDAR PAGE -->
         <div id="calendarPage" class="page">
             <button class="btn-neon" onclick="playClick(); showPage('homePage')" style="margin-bottom:30px; background:#334155; box-shadow:none;">← BACK TO MAIN ENGINE</button>
-            <div class="card" style="background: rgba(2, 6, 23, 0.85);">
+            <div class="card">
                 <h2 style="color:var(--neon); margin-bottom:25px; border-bottom:2px solid var(--accent); padding-bottom:15px; letter-spacing:1px;" id="calendarTitle">CAMPUS METROPOLITAN SCHEDULE</h2>
                 <div style="display:grid; gap:16px;">
-                    <!-- Mumbai Specific Academic & Public Holidays -->
-                    <p style="padding:18px; background:rgba(255,255,255,0.02); border-radius:16px; border-left: 5px solid var(--neon);">🌴 <b>JAN 26:</b> Republic Day (National Holiday) 🇮🇳</p>
-                    <p style="padding:18px; background:rgba(255,255,255,0.02); border-radius:16px; border-left: 5px solid var(--accent);">🗓️ <b>FEB 19:</b> Chhatrapati Shivaji Maharaj Jayanti (Maharashtra State Festival) 🚩</p>
-                    <p style="padding:18px; background:rgba(255,255,255,0.02); border-radius:16px; border-left: 5px solid var(--accent);">🌴 <b>MARCH:</b> Mahashivratri & Holi Milan Break 🎨</p>
-                    <p style="padding:18px; background:rgba(255,255,255,0.02); border-radius:16px; border-left: 5px solid var(--neon);">🗓️ <b>APRIL 01:</b> Gudi Padwa (Maharashtra New Year Academic Off) ✨</p>
-                    <p style="padding:18px; background:rgba(255,255,255,0.02); border-radius:16px; border-left: 5px solid var(--accent);">📝 <b>MAY 01:</b> Maharashtra Day / Lab Practical Examinations Start 🏛️</p>
-                    <p style="padding:18px; background:rgba(255,255,255,0.02); border-radius:16px; border-left: 5px solid var(--danger);">🚨 <b>SEPTEMBER:</b> Ganeshotsav Mid-Term Institutional Vacation 🌺</p>
+                    <p style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--neon);">🌴 <b>JAN 26:</b> Republic Day (National Holiday) 🇮🇳</p>
+                    <p style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--accent);">🗓️ <b>FEB 19:</b> Chhatrapati Shivaji Maharaj Jayanti (Maharashtra State Festival) 🚩</p>
+                    <p style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--accent);">🌴 <b>MARCH:</b> Mahashivratri & Holi Milan Break 🎨</p>
+                    <p style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--neon);">🗓️ <b>APRIL 01:</b> Gudi Padwa (Maharashtra New Year Academic Off) ✨</p>
+                    <p style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--accent);">📝 <b>MAY 01:</b> Maharashtra Day / Lab Practical Examinations Start 🏛️</p>
+                    <p style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--danger);">🚨 <b>SEPTEMBER:</b> Ganeshotsav Mid-Term Institutional Vacation 🌺</p>
                 </div>
             </div>
         </div>
@@ -166,16 +184,15 @@
     </footer>
 
     <script>
-        // 🛠️ ABSOLUTE REBRANDING COMPONENT LAYER
+        // 🛠️ REBRANDING SETTINGS LINKED VERBATIM WITH LOGO FOLDER
         const COLLEGE_CONFIG = {
             name: "Shri G.P.M. Degree College", 
-            logoUrl: "logo.gif/sumit college logo _2.jpeg", // Target file referenced verbatim!
+            logoUrl: "logo.gif/sumit college logo _2.jpeg", // Target referenced file verbatim!
             mapsLink: "https://www.google.com/maps/search/Shri+G.P.M.+Degree+College+Andheri+Mumbai"
         };
 
         const MASTER_PASS = "QWqw1234@";
         
-        // Comprehensive 8 Student Ledger Matrix
         const database = {
             "sumit singh": { name: "Sumit Singh", gpa: "9.8", att: 99, status: "PASS", paid: "₹30,000", due: "₹0" },
             "radha": { name: "Radha", gpa: "9.6", att: 95, status: "PASS", paid: "₹25,000", due: "₹5,000" },
@@ -187,22 +204,34 @@
             "meeraj": { name: "Meeraj", gpa: "3.4", att: 42, status: "FAIL", paid: "₹4,000", due: "₹26,000" }
         };
 
+        // Theme Switcher Logic Function
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const btn = document.getElementById('themeBtn');
+            if (currentTheme === 'light') {
+                document.body.removeAttribute('data-theme');
+                btn.innerText = "🌙 NIGHT";
+            } else {
+                document.body.setAttribute('data-theme', 'light');
+                btn.innerText = "☀️ DAY";
+            }
+            playClick();
+        }
+
         function setupRebranding() {
             document.getElementById('navTitle').innerText = COLLEGE_CONFIG.name;
             document.getElementById('navLogo').src = COLLEGE_CONFIG.logoUrl;
             document.getElementById('homeSubTitle').innerText = `Elite Digital Framework System optimized for ${COLLEGE_CONFIG.name} (Andheri Campus, Mumbai Region).`;
             document.getElementById('calendarTitle').innerText = `${COLLEGE_CONFIG.name} | BRiHANMUMBAl REGIONAL SCHEDULE`;
             document.getElementById('footerCollegeName').innerText = `${COLLEGE_CONFIG.name.toUpperCase()} | METROPOLITAN CAMPUS, ANDHERI (W), MUMBAI`;
-            document.getElementById('liveTickerText').innerHTML = `🔥 NEWS HUB: ${COLLEGE_CONFIG.name} Server Active | 🌴 Mumbai Calendar Synced | 📍 Current Node Location: Andheri Campus Engine.`;
+            document.getElementById('liveTickerText').innerHTML = `🔥 SYSTEM LIVE: Day/Night Toggle Matrix Enabled | 🌴 Mumbai Node Connected | 📍 Location: Andheri Campus Engine.`;
         }
 
-        function openCollegeMap() {
-            window.open(COLLEGE_CONFIG.mapsLink);
-        }
-
-        let audioInit = false;
-        function initAudio() { if(!audioInit) { speak(`System Engine Online. Secure node linked to ${COLLEGE_CONFIG.name}.`); audioInit = true; } }
+        function openCollegeMap() { window.open(COLLEGE_CONFIG.mapsLink); }
         function speak(t) { const u = new SpeechSynthesisUtterance(t); u.rate = 1.05; window.speechSynthesis.speak(u); }
+        
+        let audioInit = false;
+        function initAudio() { if(!audioInit) { speak(`System Interface Synced.`); audioInit = true; } }
         
         function playClick() {
             const context = new (window.AudioContext || window.webkitAudioContext)();
@@ -219,11 +248,11 @@
             const l = document.getElementById('laser');
             l.style.display = 'block';
             document.getElementById('fpStatus').innerText = "[ BIOMETRIC MATRIX COMPUTING... ]";
-            speak("Scanning biometric interface data flow.");
+            speak("Scanning biometric data.");
             setTimeout(() => { 
                 l.style.display = 'none'; 
                 document.getElementById('fpStatus').innerText = "[ SCAN COMPLETED & SECURED ✅ ]"; 
-                speak("Bio-signature authorized."); 
+                speak("Bio signature authorized."); 
             }, 2300);
         }
 
@@ -241,7 +270,7 @@
                 b.innerText = s.status; b.className = "badge " + (s.status === "PASS" ? "pass" : "fail");
                 
                 showPage('dashPage');
-                speak("Welcome back " + s.name + ". Secure synchronization finalized.");
+                speak("Welcome back " + s.name);
                 if(s.gpa > 9.5 || name === "sumit singh") { 
                     confetti({ particleCount: 160, spread: 80, origin: { y: 0.55 } }); 
                     if(name === "sumit singh") {
@@ -251,7 +280,7 @@
                 setTimeout(() => document.getElementById('barFill').style.width = s.att + "%", 600);
             } else { 
                 document.getElementById('err').style.display = 'block'; 
-                speak("Security protocol breach. Encryption block engaged. Access denied."); 
+                speak("Access denied."); 
             }
         }
 
@@ -272,12 +301,10 @@
             const now = new Date();
             document.getElementById('clock').innerText = now.toLocaleTimeString();
             const hour = now.getHours();
-            
             let greet = "SYSTEM ACTIVE: SECURITY PROTOCOL";
-            if (hour >= 5 && hour < 12) greet = "GOOD MORNING MAIN CONSOLE";
-            else if (hour >= 12 && hour < 17) greet = "GOOD AFTERNOON ACTIVE HUB";
-            else if (hour >= 17 && hour < 22) greet = "GOOD EVENING TERMINAL LAYER";
-            
+            if (hour >= 5 && hour < 12) greet = "GOOD MORNING CONSOLE";
+            else if (hour >= 12 && hour < 17) greet = "GOOD AFTERNOON HUB";
+            else if (hour >= 17 && hour < 22) greet = "GOOD EVENING TERMINAL";
             document.getElementById('greetTitle').innerText = greet + " ✨";
             setTimeout(updateTime, 1000);
         }
