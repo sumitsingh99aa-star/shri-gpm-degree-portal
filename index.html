@@ -4,89 +4,122 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SGRPG Elite Portal</title>
-    <!-- FontAwesome Icons -->
+    <!-- FontAwesome Icons & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-            --bg-dark: #0f172a;
-            --card-bg: rgba(255, 255, 255, 0.06);
-            --card-border: rgba(255, 255, 255, 0.1);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --success-color: #2ed573;
-            --warning-color: #ffa502;
-            --danger-color: #ff4757;
+            --primary-glow: #00f2fe;
+            --secondary-glow: #4facfe;
+            --primary-gradient: linear-gradient(135deg, var(--primary-glow) 0%, var(--secondary-glow) 100%);
+            --bg-dark: #070b19;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(0, 242, 254, 0.15);
+            --text-main: #f1f5f9;
+            --text-muted: #64748b;
+            --success-color: #00e676;
+            --warning-color: #ffb300;
+            --danger-color: #ff1744;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
             background-color: var(--bg-dark);
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(0, 242, 254, 0.1) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(79, 172, 254, 0.1) 0px, transparent 50%);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background Particles Mesh */
+        #bg-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
         }
 
         .portal-container {
             width: 100%;
             max-width: 900px;
+            z-index: 2;
+            position: relative;
         }
 
         .portal-header {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
 
         .portal-header h1 {
-            font-size: 2.3rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.8rem;
             font-weight: 800;
             background: var(--primary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
+            letter-spacing: 2px;
+            filter: drop-shadow(0 0 15px rgba(0, 242, 254, 0.3));
         }
 
+        .portal-header p {
+            color: var(--text-muted);
+            margin-top: 5px;
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+
+        /* Ultimate Neon Glassmorphic Container */
         .main-card {
             background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--card-border);
             border-radius: 24px;
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            padding: 35px;
+            box-shadow: 0 0 40px rgba(0, 242, 254, 0.1), inset 0 0 20px rgba(255,255,255,0.02);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        .main-card:hover {
+            border-color: rgba(0, 242, 254, 0.4);
+            box-shadow: 0 0 50px rgba(0, 242, 254, 0.25), inset 0 0 20px rgba(0, 242, 254, 0.05);
+        }
+
+        /* Futuristic Tab Button Layout Navigation */
         .nav-tabs {
             display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 12px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(0, 242, 254, 0.1);
             padding-bottom: 15px;
             overflow-x: auto;
         }
 
         .tab-btn {
-            background: transparent;
-            border: none;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             color: var(--text-muted);
-            padding: 10px 18px;
+            padding: 12px 20px;
             font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
-            border-radius: 8px;
+            border-radius: 12px;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
@@ -94,14 +127,17 @@
             white-space: nowrap;
         }
 
-        .tab-btn:hover, .tab-btn.active {
+        .tab-btn:hover {
             color: #ffffff;
-            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(0, 242, 254, 0.3);
+            background: rgba(0, 242, 254, 0.05);
         }
 
         .tab-btn.active {
+            color: #ffffff;
             background: var(--primary-gradient);
-            box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+            border-color: transparent;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
         }
 
         .tab-content {
@@ -110,61 +146,67 @@
 
         .tab-content.active {
             display: block;
-            animation: fadeIn 0.4s ease;
+            animation: premiumFade 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes premiumFade {
+            from { opacity: 0; transform: translateY(15px); filter: blur(5px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
         }
 
-        .btn-glow {
-            background: var(--primary-gradient);
-            border: none;
-            color: #ffffff;
-            padding: 12px 24px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
-            transition: all 0.3s ease;
-        }
-
-        .btn-glow:hover {
-            box-shadow: 0 0 30px rgba(0, 242, 254, 0.6);
-            transform: scale(1.02);
-        }
-
+        /* Input Controls */
         .input-group {
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
         .input-group label {
             display: block;
             margin-bottom: 8px;
-            color: var(--text-muted);
+            color: #94a3b8;
             font-size: 0.9rem;
+            font-weight: 500;
         }
 
         .input-field {
             width: 100%;
-            padding: 12px 16px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--card-border);
-            border-radius: 10px;
+            padding: 14px 18px;
+            background: rgba(5, 8, 22, 0.6);
+            border: 1px solid rgba(0, 242, 254, 0.15);
+            border-radius: 12px;
             color: white;
             font-size: 1rem;
             outline: none;
+            transition: all 0.3s ease;
         }
 
         .input-field:focus {
-            border-color: #00f2fe;
+            border-color: var(--primary-glow);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.25);
         }
 
+        /* Buttons with Cosmic Glow */
+        .btn-glow {
+            background: var(--primary-gradient);
+            border: none;
+            color: #ffffff;
+            padding: 14px 28px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 35px rgba(0, 242, 254, 0.7);
+            transform: translateY(-2px);
+        }
+
+        /* Dashboard Internal Blocks layout grids */
         .analytics-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -173,94 +215,150 @@
         }
 
         .analytics-box {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 16px;
-            padding: 20px;
+            background: rgba(5, 8, 22, 0.5);
+            border-radius: 20px;
+            padding: 25px;
             border: 1px solid rgba(255, 255, 255, 0.03);
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.2);
         }
 
         .attendance-grid {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 25px;
         }
 
         .circular-progress {
             position: relative;
-            height: 110px;
-            width: 110px;
+            height: 120px;
+            width: 120px;
             border-radius: 50%;
-            background: conic-gradient(#00f2fe 0deg, #1e293b 0deg);
+            background: conic-gradient(#00f2fe 0deg, #131b2e 0deg);
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.1);
         }
 
         .circular-progress::before {
             content: "";
             position: absolute;
-            height: 88px;
-            width: 88px;
+            height: 96px;
+            width: 96px;
             border-radius: 50%;
-            background-color: #131b2e;
+            background-color: #0b1120;
         }
 
         .progress-value {
             position: relative;
-            font-size: 1.4rem;
-            font-weight: 700;
-        }
-
-        .cgpa-display {
-            text-align: center;
-            padding: 10px 0;
+            font-size: 1.5rem;
+            font-weight: 800;
+            font-family: 'Orbitron', sans-serif;
         }
 
         .cgpa-score {
-            font-size: 3rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
             font-weight: 800;
-            color: #00f2fe;
-            text-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+            color: var(--primary-glow);
+            text-shadow: 0 0 20px rgba(0, 242, 254, 0.5);
             margin: 5px 0;
         }
 
+        /* Table Design */
         .calendar-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 15px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 12px;
+            background: rgba(5, 8, 22, 0.4);
+            border-radius: 16px;
             overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.02);
         }
 
         .calendar-table th, .calendar-table td {
-            padding: 14px;
+            padding: 16px;
             text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
 
         .calendar-table th {
-            background: rgba(255, 255, 255, 0.05);
-            color: #00f2fe;
+            background: rgba(0, 242, 254, 0.05);
+            color: var(--primary-glow);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .calendar-table tr:hover {
+            background: rgba(0, 242, 254, 0.02);
         }
 
         .map-container {
-            border-radius: 16px;
+            border-radius: 20px;
             overflow: hidden;
-            border: 1px solid var(--card-border);
+            border: 1px solid rgba(0, 242, 254, 0.2);
             margin-top: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* EXCLUSIVE PREMIUM FOOTER CREDIT DESIGN LINE */
+        .developer-footer {
+            margin-top: 35px;
+            text-align: center;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .signature-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .signature-text strong {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+        }
+
+        .signature-text:hover {
+            color: #ffffff;
+            letter-spacing: 3px;
+        }
+
+        .signature-text i {
+            color: var(--danger-color);
+            animation: heartbeat 1.4s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
         }
 
         .error-msg {
             color: var(--danger-color);
             font-size: 0.9rem;
-            margin-top: 10px;
+            margin-top: 12px;
             display: none;
             text-align: center;
+            font-weight: 500;
         }
     </style>
 </head>
 <body>
+
+    <!-- Space Particle Animation Canvas Layer -->
+    <canvas id="bg-canvas"></canvas>
 
     <div class="portal-container">
         <div class="portal-header">
@@ -276,69 +374,69 @@
                 <button class="tab-btn" onclick="switchTab('location-tab')"><i class="fas fa-map-marker-alt"></i> Campus Location</button>
             </nav>
 
-            <!-- 1. NAME-BASED SECURE LOGIN SYSTEM -->
+            <!-- 1. LOGIN SECTION -->
             <div id="login-tab" class="tab-content active">
-                <h2 style="margin-bottom: 15px; text-align: center;">Secure Student Login</h2>
+                <h2 style="margin-bottom: 20px; text-align: center; font-weight:600;">Secure Student Login</h2>
                 <div style="max-width: 400px; margin: 0 auto; padding: 10px 0;">
                     <div class="input-group">
-                        <label>Student First Name (E.g., Sumit, Radha, Meeraj)</label>
-                        <input type="text" id="name-input" class="input-field" placeholder="Apna naam enter karein..." value="Sumit">
+                        <label>Student First Name</label>
+                        <input type="text" id="name-input" class="input-field" placeholder="E.g., Sumit, Radha, Meeraj" value="Sumit">
                     </div>
                     <div class="input-group">
-                        <label>Password</label>
+                        <label>Security Password</label>
                         <input type="password" id="password-input" class="input-field" placeholder="••••••••" value="QWqw1234@">
                     </div>
-                    <button class="btn-glow" style="width: 100%; justify-content: center;" onclick="validateAndLogin()">
+                    <button class="btn-glow" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="validateAndLogin()">
                         Authenticate & Access Dashboard
                     </button>
-                    <div id="login-error" class="error-msg">❌ Galat Naam ya Password! Kripya details re-check karein.</div>
+                    <div id="login-error" class="error-msg">❌ Invalid Credentials! Please review name or security layout keys.</div>
                 </div>
             </div>
 
-            <!-- 2. DYNAMIC STUDENT DASHBOARD -->
+            <!-- 2. DASHBOARD ENGINE -->
             <div id="dashboard-tab" class="tab-content">
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
                     <div>
-                        <h2 id="welcome-message">Welcome Back!</h2>
+                        <h2 id="welcome-message" style="font-weight:700;">Welcome Back!</h2>
                         <p id="student-roll-label" style="color: var(--text-muted); font-size: 0.95rem;"></p>
                     </div>
-                    <div style="display: flex; gap: 10px;">
+                    <div style="display: flex; gap: 12px;">
                         <button id="speak-btn" class="btn-glow"><i class="fas fa-volume-high"></i> Voice Report</button>
-                        <button class="btn-glow" style="background: rgba(255,255,255,0.1); box-shadow:none;" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                        <button class="btn-glow" style="background: rgba(255,255,255,0.05); box-shadow:none; border: 1px solid rgba(255,255,255,0.1);" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
                     </div>
                 </div>
 
-                <hr style="border:0; height:1px; background:rgba(255,255,255,0.1); margin:25px 0;">
+                <hr style="border:0; height:1px; background:rgba(0, 242, 254, 0.15); margin:25px 0;">
 
                 <div class="analytics-container">
                     <div class="analytics-box">
-                        <h3 style="margin-bottom: 15px; font-size: 1.1rem; color: #00f2fe;">Live Class Attendance</h3>
+                        <h3 style="margin-bottom: 18px; font-size: 1.1rem; color: var(--primary-glow); letter-spacing: 0.5px;">Live Class Attendance</h3>
                         <div class="attendance-grid">
                             <div class="circular-progress">
                                 <span class="progress-value">0%</span>
                             </div>
                             <div>
-                                <div id="status-tag" style="font-weight:600; font-size:0.95rem; margin-bottom: 4px;">Checking...</div>
-                                <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.4;">75% attendance criteria rules applicable as per department data logs.</p>
+                                <div id="status-tag" style="font-weight:700; font-size:1rem; margin-bottom: 6px;">Checking...</div>
+                                <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.4;">75% attendance criteria rules applicable configuration database protocols.</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="analytics-box">
-                        <h3 style="margin-bottom: 15px; font-size: 1.1rem; color: #00f2fe;">Academic CGPA Tracker</h3>
+                        <h3 style="margin-bottom: 18px; font-size: 1.1rem; color: var(--primary-glow); letter-spacing: 0.5px;">Academic CGPA Tracker</h3>
                         <div class="cgpa-display">
                             <p style="color: var(--text-muted); font-size: 0.85rem;">Cumulative Grade Point Average</p>
                             <div id="student-cgpa" class="cgpa-score">0.00</div>
-                            <p id="cgpa-remarks" style="font-size: 0.9rem; font-weight: 600; color: var(--success-color);">Excellent!</p>
+                            <p id="cgpa-remarks" style="font-size: 0.95rem; font-weight: 700; color: var(--success-color);">Excellent!</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 3. HOLIDAY CALENDAR -->
+            <!-- 3. HOLIDAY MODULE -->
             <div id="calendar-tab" class="tab-content">
-                <h2>Academic Holiday Calendar (2026)</h2>
-                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 10px;">All official institution closures:</p>
+                <h2 style="margin-bottom: 5px;">Academic Holiday Calendar (2026)</h2>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 15px;">Official scheduled institutional closure frameworks:</p>
                 <table class="calendar-table">
                     <thead>
                         <tr>
@@ -356,10 +454,10 @@
                 </table>
             </div>
 
-            <!-- 4. CAMPUS LOCATION MAP -->
+            <!-- 4. LOCATION MODULE -->
             <div id="location-tab" class="tab-content">
-                <h2>Campus Navigation Location</h2>
-                <p style="color: var(--text-muted); font-size: 0.95rem;">Official Shri G.P.M. Degree College route pointer:</p>
+                <h2 style="margin-bottom: 5px;">Campus Navigation Location</h2>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 15px;">Realtime satellite mapping parameters for Shri G.P.M. Degree College:</p>
                 <div class="map-container">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.006132338941!2d72.84617507503348!3d19.107386050519362!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c9b4e1f74811%3A0x6e8e80d4bdca52ab!2sShri%20G.P.M.%20Degree%20College!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin" 
                         width="100%" height="380" style="border:0; display: block;" allowfullscreen="" loading="lazy">
@@ -367,11 +465,18 @@
                 </div>
             </div>
 
+            <!-- 🌟 BRAND NEW DESIGNED BY SUMIT SINGH EXCLUSIVE FOOTER CREDIT 🌟 -->
+            <div class="developer-footer">
+                <div class="signature-text">
+                    <i class="fa-solid fa-code"></i> Design By <strong>Sumit Singh</strong>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <script>
-        // --- REAL FRIEND DATABASE ARRAYS WITH FULL PROFILES ---
+        // --- LIVE DATABASE INSTANCES ARRAYS ---
         const studentDatabase = {
             "sumit": { fullName: "Sumit Singh", roll: "SGRPG-7799", attendance: 78, cgpa: 8.45 },
             "radha": { fullName: "Radha", roll: "SGRPG-8812", attendance: 86, cgpa: 8.95 },
@@ -383,11 +488,65 @@
             "vidhi": { fullName: "Vidhi", roll: "SGRPG-8818", attendance: 80, cgpa: 8.25 }
         };
 
-        const SHARED_PASSWORD = "QWqw1234@"; // Master uniform password set rules
-
+        const SHARED_PASSWORD = "QWqw1234@";
         let activeSessionUser = null;
         let graphAnimationTracker = null;
 
+        // --- BACKGROUND PARTICLES SIMULATION ANIMATION SYSTEM ---
+        const canvas = document.getElementById("bg-canvas");
+        const ctx = canvas.getContext("2d");
+        let particlesArray = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0;
+                else if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                else if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = "rgba(0, 242, 254, 0.25)";
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particlesArray = [];
+            for (let i = 0; i < 65; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+        
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        initParticles();
+        animateParticles();
+
+        // --- CORE APPLICATION SWITCH CONTROLS ---
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -397,13 +556,11 @@
             if(targetBtn) targetBtn.classList.add('active');
         }
 
-        // Modified Name-Based Gate Authentication Engine
         function validateAndLogin() {
             const nameInput = document.getElementById("name-input").value.trim().toLowerCase();
             const passwordInput = document.getElementById("password-input").value.trim();
             const errorBanner = document.getElementById("login-error");
 
-            // Check if name is matching pool indices AND uniform password rules align perfectly
             if (studentDatabase[nameInput] && passwordInput === SHARED_PASSWORD) {
                 errorBanner.style.display = "none";
                 activeSessionUser = studentDatabase[nameInput];
@@ -438,9 +595,9 @@
 
             document.getElementById("student-cgpa").innerText = activeSessionUser.cgpa.toFixed(2);
             const remarksText = document.getElementById("cgpa-remarks");
-            if(activeSessionUser.cgpa >= 9.0) { remarksText.innerText = "Outstanding!"; remarksText.style.color = "#2ed573"; }
-            else if(activeSessionUser.cgpa >= 8.0) { remarksText.innerText = "Excellent!"; remarksText.style.color = "#00f2fe"; }
-            else { remarksText.innerText = "Good Performance"; remarksText.style.color = "#ffa502"; }
+            if(activeSessionUser.cgpa >= 9.0) { remarksText.innerText = "Outstanding!"; remarksText.style.color = "var(--success-color)"; }
+            else if(activeSessionUser.cgpa >= 8.0) { remarksText.innerText = "Excellent!"; remarksText.style.color = "var(--primary-glow)"; }
+            else { remarksText.innerText = "Good Performance"; remarksText.style.color = "var(--warning-color)"; }
 
             if(graphAnimationTracker) clearInterval(graphAnimationTracker);
 
@@ -457,7 +614,7 @@
                 statusTag.innerText = "Shortage Alert! (Critical)";
                 statusTag.style.color = "var(--danger-color)";
             } else {
-                dynamicColor = targetVal >= 88 ? "var(--success-color)" : "var(--warning-color)";
+                dynamicColor = targetVal >= 88 ? "var(--success-color)" : "var(--primary-glow)";
                 statusTag.innerText = "Attendance Status: Safe Zone";
                 statusTag.style.color = dynamicColor;
             }
@@ -466,12 +623,12 @@
                 graphAnimationTracker = setInterval(() => {
                     currentLoop++;
                     numberMetric.textContent = `${currentLoop}%`;
-                    circle.style.background = `conic-gradient(${dynamicColor} ${currentLoop * 3.6}deg, #1e293b 0deg)`;
+                    circle.style.background = `conic-gradient(${dynamicColor} ${currentLoop * 3.6}deg, #131b2e 0deg)`;
                     if(currentLoop === targetVal) clearInterval(graphAnimationTracker);
                 }, 15);
             } else {
                 numberMetric.textContent = `0%`;
-                circle.style.background = `conic-gradient(var(--danger-color) 0deg, #1e293b 0deg)`;
+                circle.style.background = `conic-gradient(var(--danger-color) 0deg, #131b2e 0deg)`;
             }
         }
 
@@ -485,7 +642,7 @@
             else if (hours < 17) greet = "Good Afternoon";
             else greet = "Good Evening";
 
-            const speechObj = new SpeechSynthesisUtterance(`${greet} ${activeSessionUser.fullName}. Welcome to your premium dashboard panel tracker.`);
+            const speechObj = new SpeechSynthesisUtterance(`${greet} ${activeSessionUser.fullName}. Welcome to your dashboard.`);
             speechObj.rate = 0.95;
             window.speechSynthesis.speak(speechObj);
         });
