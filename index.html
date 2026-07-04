@@ -42,7 +42,6 @@
             position: relative;
         }
 
-        /* Animated Background Particles Mesh */
         #bg-canvas {
             position: absolute;
             top: 0;
@@ -67,7 +66,7 @@
 
         .portal-header h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             font-weight: 800;
             background: var(--primary-gradient);
             -webkit-background-clip: text;
@@ -77,35 +76,20 @@
             filter: drop-shadow(0 0 15px rgba(0, 242, 254, 0.3));
         }
 
-        .portal-header p {
-            color: var(--text-muted);
-            margin-top: 5px;
-            font-size: 1rem;
-            letter-spacing: 1px;
-        }
-
-        /* Ultimate Neon Glassmorphic Container */
         .main-card {
             background: var(--card-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--card-border);
             border-radius: 24px;
-            padding: 35px;
-            box-shadow: 0 0 40px rgba(0, 242, 254, 0.1), inset 0 0 20px rgba(255,255,255,0.02);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 30px;
+            box-shadow: 0 0 40px rgba(0, 242, 254, 0.1);
         }
 
-        .main-card:hover {
-            border-color: rgba(0, 242, 254, 0.4);
-            box-shadow: 0 0 50px rgba(0, 242, 254, 0.25), inset 0 0 20px rgba(0, 242, 254, 0.05);
-        }
-
-        /* Futuristic Tab Button Layout Navigation */
         .nav-tabs {
             display: flex;
             gap: 12px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             border-bottom: 1px solid rgba(0, 242, 254, 0.1);
             padding-bottom: 15px;
             overflow-x: auto;
@@ -124,13 +108,6 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            white-space: nowrap;
-        }
-
-        .tab-btn:hover {
-            color: #ffffff;
-            border-color: rgba(0, 242, 254, 0.3);
-            background: rgba(0, 242, 254, 0.05);
         }
 
         .tab-btn.active {
@@ -149,215 +126,109 @@
             animation: premiumFade 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        @keyframes premiumFade {
-            from { opacity: 0; transform: translateY(15px); filter: blur(5px); }
-            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        /* 🌟 SCROLL TYPE SCROLLABLE VIEWBOARD PANEL CONFIGURATION 🌟 */
+        .scrollable-panel {
+            max-height: 480px;
+            overflow-y: auto;
+            padding-right: 10px;
         }
 
-        /* Input Controls */
-        .input-group {
-            margin-bottom: 20px;
+        /* Custom Modern Scrollbar */
+        .scrollable-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+        .scrollable-panel::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.01);
+            border-radius: 10px;
+        }
+        .scrollable-panel::-webkit-scrollbar-thumb {
+            background: rgba(0, 242, 254, 0.3);
+            border-radius: 10px;
+        }
+        .scrollable-panel::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-glow);
         }
 
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #94a3b8;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
+        /* Input Elements */
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; margin-bottom: 8px; color: #94a3b8; font-size: 0.9rem; }
         .input-field {
-            width: 100%;
-            padding: 14px 18px;
-            background: rgba(5, 8, 22, 0.6);
-            border: 1px solid rgba(0, 242, 254, 0.15);
-            border-radius: 12px;
-            color: white;
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.3s ease;
+            width: 100%; padding: 14px 18px; background: rgba(5, 8, 22, 0.6);
+            border: 1px solid rgba(0, 242, 254, 0.15); border-radius: 12px; color: white; outline: none;
         }
+        .input-field:focus { border-color: var(--primary-glow); box-shadow: 0 0 15px rgba(0, 242, 254, 0.25); }
 
-        .input-field:focus {
-            border-color: var(--primary-glow);
-            box-shadow: 0 0 15px rgba(0, 242, 254, 0.25);
-        }
-
-        /* Buttons with Cosmic Glow */
         .btn-glow {
-            background: var(--primary-gradient);
-            border: none;
-            color: #ffffff;
-            padding: 14px 28px;
-            border-radius: 14px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--primary-gradient); border: none; color: #ffffff; padding: 14px 28px;
+            border-radius: 14px; cursor: pointer; font-size: 1rem; font-weight: 700; display: inline-flex;
+            align-items: center; gap: 10px; box-shadow: 0 0 20px rgba(0, 242, 254, 0.3); transition: all 0.3s;
+        }
+        .btn-glow:hover { box-shadow: 0 0 35px rgba(0, 242, 254, 0.7); transform: translateY(-2px); }
+
+        /* Dashboard Intelligent Grid Layout Blocks */
+        .dashboard-layout-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
-        .btn-glow:hover {
-            box-shadow: 0 0 35px rgba(0, 242, 254, 0.7);
-            transform: translateY(-2px);
-        }
-
-        /* Dashboard Internal Blocks layout grids */
         .analytics-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
         }
 
         .analytics-box {
-            background: rgba(5, 8, 22, 0.5);
-            border-radius: 20px;
-            padding: 25px;
+            background: rgba(5, 8, 22, 0.5); border-radius: 20px; padding: 22px;
             border: 1px solid rgba(255, 255, 255, 0.03);
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.2);
         }
 
-        .attendance-grid {
-            display: flex;
-            align-items: center;
-            gap: 25px;
+        /* Dynamic Status Notice Alerts Card Blocks */
+        .alert-banner-box {
+            border-radius: 16px; padding: 18px; font-weight: 600; display: flex;
+            align-items: center; gap: 12px; animation: pulseGlow 2s infinite alternate;
         }
+        .alert-success { background: rgba(0, 230, 118, 0.1); border: 1px solid var(--success-color); color: var(--success-color); }
+        .alert-danger { background: rgba(255, 23, 68, 0.1); border: 1px solid var(--danger-color); color: var(--danger-color); }
 
+        .attendance-grid { display: flex; align-items: center; gap: 20px; }
         .circular-progress {
-            position: relative;
-            height: 120px;
-            width: 120px;
-            border-radius: 50%;
-            background: conic-gradient(#00f2fe 0deg, #131b2e 0deg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.1);
+            position: relative; height: 110px; width: 110px; border-radius: 50%;
+            background: conic-gradient(#00f2fe 0deg, #131b2e 0deg); display: flex; align-items: center; justify-content: center;
         }
+        .circular-progress::before { content: ""; position: absolute; height: 88px; width: 88px; border-radius: 50%; background-color: #0b1120; }
+        .progress-value { position: relative; font-size: 1.4rem; font-weight: 800; font-family: 'Orbitron', sans-serif; }
 
-        .circular-progress::before {
-            content: "";
-            position: absolute;
-            height: 96px;
-            width: 96px;
-            border-radius: 50%;
-            background-color: #0b1120;
-        }
+        .cgpa-score { font-family: 'Orbitron', sans-serif; font-size: 3.2rem; font-weight: 800; color: var(--primary-glow); margin: 5px 0; }
 
-        .progress-value {
-            position: relative;
-            font-size: 1.5rem;
-            font-weight: 800;
-            font-family: 'Orbitron', sans-serif;
+        /* Fees Panel Visual Mapping */
+        .fees-row-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
         }
+        .status-pill { padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; }
+        .pill-paid { background: rgba(0, 230, 118, 0.15); color: var(--success-color); border: 1px solid var(--success-color); }
+        .pill-pending { background: rgba(255, 23, 68, 0.15); color: var(--danger-color); border: 1px solid var(--danger-color); }
 
-        .cgpa-score {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 800;
-            color: var(--primary-glow);
-            text-shadow: 0 0 20px rgba(0, 242, 254, 0.5);
-            margin: 5px 0;
-        }
+        .calendar-table { width: 100%; border-collapse: collapse; background: rgba(5, 8, 22, 0.4); border-radius: 16px; overflow: hidden; }
+        .calendar-table th, .calendar-table td { padding: 14px; text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
+        .calendar-table th { background: rgba(0, 242, 254, 0.05); color: var(--primary-glow); }
 
-        /* Table Design */
-        .calendar-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            background: rgba(5, 8, 22, 0.4);
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.02);
-        }
+        .map-container { border-radius: 20px; overflow: hidden; border: 1px solid rgba(0, 242, 254, 0.2); }
 
-        .calendar-table th, .calendar-table td {
-            padding: 16px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-        }
+        /* FOOTER BRANDING SIGNATURE HEADER */
+        .developer-footer { margin-top: 30px; text-align: center; padding-top: 15px; border-top: 1px solid rgba(255, 255, 255, 0.05); }
+        .signature-text { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; font-weight: 500; letter-spacing: 2px; color: var(--text-muted); display: inline-flex; align-items: center; gap: 8px; }
+        .signature-text strong { background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
+        .signature-text i { color: var(--danger-color); animation: heartbeat 1.4s infinite; }
 
-        .calendar-table th {
-            background: rgba(0, 242, 254, 0.05);
-            color: var(--primary-glow);
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
-        .calendar-table tr:hover {
-            background: rgba(0, 242, 254, 0.02);
-        }
-
-        .map-container {
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid rgba(0, 242, 254, 0.2);
-            margin-top: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        /* EXCLUSIVE PREMIUM FOOTER CREDIT DESIGN LINE */
-        .developer-footer {
-            margin-top: 35px;
-            text-align: center;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .signature-text {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.95rem;
-            font-weight: 500;
-            letter-spacing: 2px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .signature-text strong {
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
-            text-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
-        }
-
-        .signature-text:hover {
-            color: #ffffff;
-            letter-spacing: 3px;
-        }
-
-        .signature-text i {
-            color: var(--danger-color);
-            animation: heartbeat 1.4s infinite;
-        }
-
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-
-        .error-msg {
-            color: var(--danger-color);
-            font-size: 0.9rem;
-            margin-top: 12px;
-            display: none;
-            text-align: center;
-            font-weight: 500;
-        }
+        @keyframes premiumFade { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+        .error-msg { color: var(--danger-color); font-size: 0.9rem; margin-top: 12px; display: none; text-align: center; }
     </style>
 </head>
 <body>
 
-    <!-- Space Particle Animation Canvas Layer -->
     <canvas id="bg-canvas"></canvas>
 
     <div class="portal-container">
@@ -374,10 +245,10 @@
                 <button class="tab-btn" onclick="switchTab('location-tab')"><i class="fas fa-map-marker-alt"></i> Campus Location</button>
             </nav>
 
-            <!-- 1. LOGIN SECTION -->
+            <!-- 1. AUTH LOGIN MODULE -->
             <div id="login-tab" class="tab-content active">
-                <h2 style="margin-bottom: 20px; text-align: center; font-weight:600;">Secure Student Login</h2>
-                <div style="max-width: 400px; margin: 0 auto; padding: 10px 0;">
+                <h2 style="margin-bottom: 20px; text-align: center;">Secure Student Login</h2>
+                <div style="max-width: 400px; margin: 0 auto;">
                     <div class="input-group">
                         <label>Student First Name</label>
                         <input type="text" id="name-input" class="input-field" placeholder="E.g., Sumit, Radha, Meeraj" value="Sumit">
@@ -386,78 +257,100 @@
                         <label>Security Password</label>
                         <input type="password" id="password-input" class="input-field" placeholder="••••••••" value="QWqw1234@">
                     </div>
-                    <button class="btn-glow" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="validateAndLogin()">
+                    <button class="btn-glow" style="width: 100%; justify-content: center;" onclick="validateAndLogin()">
                         Authenticate & Access Dashboard
                     </button>
-                    <div id="login-error" class="error-msg">❌ Invalid Credentials! Please review name or security layout keys.</div>
+                    <div id="login-error" class="error-msg">❌ Invalid Credentials! Please review user login credentials keys.</div>
                 </div>
             </div>
 
-            <!-- 2. DASHBOARD ENGINE -->
+            <!-- 2. DYNAMIC SCROLL TYPE DASHBOARD MAIN PANEL MODULE -->
             <div id="dashboard-tab" class="tab-content">
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-                    <div>
-                        <h2 id="welcome-message" style="font-weight:700;">Welcome Back!</h2>
-                        <p id="student-roll-label" style="color: var(--text-muted); font-size: 0.95rem;"></p>
-                    </div>
-                    <div style="display: flex; gap: 12px;">
-                        <button id="speak-btn" class="btn-glow"><i class="fas fa-volume-high"></i> Voice Report</button>
-                        <button class="btn-glow" style="background: rgba(255,255,255,0.05); box-shadow:none; border: 1px solid rgba(255,255,255,0.1);" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
-                    </div>
-                </div>
-
-                <hr style="border:0; height:1px; background:rgba(0, 242, 254, 0.15); margin:25px 0;">
-
-                <div class="analytics-container">
-                    <div class="analytics-box">
-                        <h3 style="margin-bottom: 18px; font-size: 1.1rem; color: var(--primary-glow); letter-spacing: 0.5px;">Live Class Attendance</h3>
-                        <div class="attendance-grid">
-                            <div class="circular-progress">
-                                <span class="progress-value">0%</span>
-                            </div>
+                <div class="scrollable-panel">
+                    <div class="dashboard-layout-stack">
+                        
+                        <!-- Header Identity Block -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
                             <div>
-                                <div id="status-tag" style="font-weight:700; font-size:1rem; margin-bottom: 6px;">Checking...</div>
-                                <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.4;">75% attendance criteria rules applicable configuration database protocols.</p>
+                                <h2 id="welcome-message">Welcome Back!</h2>
+                                <p id="student-roll-label" style="color: var(--text-muted); font-size: 0.95rem;"></p>
+                            </div>
+                            <div style="display: flex; gap: 12px;">
+                                <button id="speak-btn" class="btn-glow"><i class="fas fa-volume-high"></i> Voice Report</button>
+                                <button class="btn-glow" style="background: rgba(255,255,255,0.05); box-shadow:none; border:1px solid rgba(255,255,255,0.1);" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="analytics-box">
-                        <h3 style="margin-bottom: 18px; font-size: 1.1rem; color: var(--primary-glow); letter-spacing: 0.5px;">Academic CGPA Tracker</h3>
-                        <div class="cgpa-display">
-                            <p style="color: var(--text-muted); font-size: 0.85rem;">Cumulative Grade Point Average</p>
-                            <div id="student-cgpa" class="cgpa-score">0.00</div>
-                            <p id="cgpa-remarks" style="font-size: 0.95rem; font-weight: 700; color: var(--success-color);">Excellent!</p>
+                        <!-- 🌟 INTELLIGENT BANNER ALERTS: CONGRATULATIONS VS ALERT DISMISSALS 🌟 -->
+                        <div id="intelligence-banner-hook" style="display: none;">
+                            <!-- Content injected via operational database rules downstream -->
                         </div>
+
+                        <!-- Main Core Stats Container Group Row -->
+                        <div class="analytics-container">
+                            <div class="analytics-box">
+                                <h3 style="margin-bottom: 15px; font-size: 1.1rem; color: var(--primary-glow);">Live Class Attendance</h3>
+                                <div class="attendance-grid">
+                                    <div class="circular-progress">
+                                        <span class="progress-value">0%</span>
+                                    </div>
+                                    <div>
+                                        <div id="status-tag" style="font-weight:700; font-size:0.95rem; margin-bottom: 4px;">Checking...</div>
+                                        <p style="color: var(--text-muted); font-size: 0.8rem; line-height: 1.4;">75% metrics constraints verification applicable rules parameters.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="analytics-box">
+                                <h3 style="margin-bottom: 15px; font-size: 1.1rem; color: var(--primary-glow);">Academic CGPA Tracker</h3>
+                                <div style="text-align: center;">
+                                    <p style="color: var(--text-muted); font-size: 0.85rem;">Cumulative Performance Index</p>
+                                    <div id="student-cgpa" class="cgpa-score">0.00</div>
+                                    <p id="cgpa-remarks" style="font-size: 0.95rem; font-weight: 700; color: var(--success-color);">Excellent!</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 🌟 BRAND NEW INTEGRATED ACCOUNT FEES BALANCE TRACKER CARD 🌟 -->
+                        <div class="analytics-box">
+                            <h3 style="margin-bottom: 15px; font-size: 1.1rem; color: var(--primary-glow);"><i class="fa-solid fa-wallet"></i> Institution Accounts & Fees Ledger</h3>
+                            <div class="fees-row-item">
+                                <div><strong>Tuition Academic Fees (Semester VI)</strong><br><small style="color: var(--text-muted);">Due Date: 20 July 2026</small></div>
+                                <div id="fee-status-tuition" class="status-pill">Checking...</div>
+                            </div>
+                            <div class="fees-row-item">
+                                <div><strong>University Examination Registration Ledger</strong><br><small style="color: var(--text-muted);">Due Date: 12 August 2026</small></div>
+                                <div id="fee-status-exam" class="status-pill">Checking...</div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
 
-            <!-- 3. HOLIDAY MODULE -->
+            <!-- 3. HOLIDAY PANEL VIEW MODULE -->
             <div id="calendar-tab" class="tab-content">
-                <h2 style="margin-bottom: 5px;">Academic Holiday Calendar (2026)</h2>
-                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 15px;">Official scheduled institutional closure frameworks:</p>
-                <table class="calendar-table">
-                    <thead>
-                        <tr>
-                            <th>Occasion / Festival</th>
-                            <th>Date</th>
-                            <th>Day</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Independence Day</td><td>15 August 2026</td><td>Saturday</td></tr>
-                        <tr><td>Ganesh Chaturthi</td><td>14 September 2026</td><td>Monday</td></tr>
-                        <tr><td>Diwali Vacation</td><td>06-12 November 2026</td><td>Fri - Thu</td></tr>
-                        <tr><td>Christmas Break</td><td>25 December 2026</td><td>Friday</td></tr>
-                    </tbody>
-                </table>
+                <div class="scrollable-panel">
+                    <h2 style="margin-bottom: 5px;">Academic Holiday Calendar (2026)</h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 15px;">Institution framework closures logs:</p>
+                    <table class="calendar-table">
+                        <thead>
+                            <tr><th>Occasion / Festival</th><th>Date</th><th>Day</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Independence Day</td><td>15 August 2026</td><td>Saturday</td></tr>
+                            <tr><td>Ganesh Chaturthi</td><td>14 September 2026</td><td>Monday</td></tr>
+                            <tr><td>Diwali Vacation</td><td>06-12 November 2026</td><td>Fri - Thu</td></tr>
+                            <tr><td>Christmas Break</td><td>25 December 2026</td><td>Friday</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- 4. LOCATION MODULE -->
             <div id="location-tab" class="tab-content">
-                <h2 style="margin-bottom: 5px;">Campus Navigation Location</h2>
-                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 15px;">Realtime satellite mapping parameters for Shri G.P.M. Degree College:</p>
+                <h2>Campus Navigation Location</h2>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 15px;">Google Maps mapping directives parameters:</p>
                 <div class="map-container">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.006132338941!2d72.84617507503348!3d19.107386050519362!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c9b4e1f74811%3A0x6e8e80d4bdca52ab!2sShri%20G.P.M.%20Degree%20College!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin" 
                         width="100%" height="380" style="border:0; display: block;" allowfullscreen="" loading="lazy">
@@ -465,7 +358,7 @@
                 </div>
             </div>
 
-            <!-- 🌟 BRAND NEW DESIGNED BY SUMIT SINGH EXCLUSIVE FOOTER CREDIT 🌟 -->
+            <!-- FOOTER SIGNATURE HEADER CREDIT CONSOLE -->
             <div class="developer-footer">
                 <div class="signature-text">
                     <i class="fa-solid fa-code"></i> Design By <strong>Sumit Singh</strong>
@@ -476,81 +369,41 @@
     </div>
 
     <script>
-        // --- LIVE DATABASE INSTANCES ARRAYS ---
+        // --- EXPANDED LIVE DATABASE OBJECT MATRIX ---
         const studentDatabase = {
-            "sumit": { fullName: "Sumit Singh", roll: "SGRPG-7799", attendance: 78, cgpa: 8.45 },
-            "radha": { fullName: "Radha", roll: "SGRPG-8812", attendance: 86, cgpa: 8.95 },
-            "meeraj": { fullName: "Meeraj", roll: "SGRPG-8813", attendance: 74, cgpa: 7.80 },
-            "akanksha": { fullName: "Akanksha", roll: "SGRPG-8814", attendance: 91, cgpa: 9.15 },
-            "shareen": { fullName: "Shareen", roll: "SGRPG-8815", attendance: 82, cgpa: 8.30 },
-            "sharib": { fullName: "Sharib", roll: "SGRPG-8816", attendance: 65, cgpa: 7.10 },
-            "zaid": { fullName: "Zaid", roll: "SGRPG-8817", attendance: 88, cgpa: 8.65 },
-            "vidhi": { fullName: "Vidhi", roll: "SGRPG-8818", attendance: 80, cgpa: 8.25 }
+            "sumit": { fullName: "Sumit Singh", roll: "SGRPG-7799", attendance: 94, cgpa: 9.70, tuitionFee: "Paid", examFee: "Paid", isTopper: false, isFailed: false },
+            "radha": { fullName: "Radha", roll: "SGRPG-8812", attendance: 86, cgpa: 8.45, tuitionFee: "Paid", examFee: "Paid", isTopper: true, isFailed: false },
+            "meeraj": { fullName: "Meeraj", roll: "SGRPG-8813", attendance: 75, cgpa: 7.80, tuitionFee: "Pending", examFee: "Paid", isTopper: false, isFailed: false },
+            "akanksha": { fullName: "Akanksha", roll: "SGRPG-8814", attendance: 80, cgpa: 8.25, tuitionFee: "Paid", examFee: "Paid", isTopper: true, isFailed: false },
+            "shareen": { fullName: "Shareen", roll: "SGRPG-8815", attendance: 82, cgpa: 8.30, tuitionFee: "Paid", examFee: "Pending", isTopper: false, isFailed: false },
+            "sharib": { fullName: "Sharib", roll: "SGRPG-8816", attendance: 45, cgpa: 4.20, tuitionFee: "Pending", examFee: "Pending", isTopper: false, isFailed: true },
+            "zaid": { fullName: "Zaid", roll: "SGRPG-8817", attendance: 88, cgpa: 8.65, tuitionFee: "Paid", examFee: "Paid", isTopper: false, isFailed: false },
+            "vidhi": { fullName: "Vidhi", roll: "SGRPG-8818", attendance: 80, cgpa: 8.25, tuitionFee: "Paid", examFee: "Paid", isTopper: false, isFailed: false }
         };
 
         const SHARED_PASSWORD = "QWqw1234@";
         let activeSessionUser = null;
         let graphAnimationTracker = null;
 
-        // --- BACKGROUND PARTICLES SIMULATION ANIMATION SYSTEM ---
+        // Space Background Animation Engine Arrays
         const canvas = document.getElementById("bg-canvas");
         const ctx = canvas.getContext("2d");
         let particlesArray = [];
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener("resize", resizeCanvas);
-        resizeCanvas();
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener("resize", resizeCanvas); resizeCanvas();
 
         class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 0.5;
-                this.speedX = Math.random() * 0.5 - 0.25;
-                this.speedY = Math.random() * 0.5 - 0.25;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x > canvas.width) this.x = 0;
-                else if (this.x < 0) this.x = canvas.width;
-                if (this.y > canvas.height) this.y = 0;
-                else if (this.y < 0) this.y = canvas.height;
-            }
-            draw() {
-                ctx.fillStyle = "rgba(0, 242, 254, 0.25)";
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
+            constructor() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.size = Math.random() * 2 + 0.5; this.speedX = Math.random() * 0.4 - 0.2; this.speedY = Math.random() * 0.4 - 0.2; }
+            update() { this.x += this.speedX; this.y += this.speedY; if (this.x > canvas.width || this.x < 0) this.speedX *= -1; if (this.y > canvas.height || this.y < 0) this.speedY *= -1; }
+            draw() { ctx.fillStyle = "rgba(0, 242, 254, 0.2)"; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
         }
-
-        function initParticles() {
-            particlesArray = [];
-            for (let i = 0; i < 65; i++) {
-                particlesArray.push(new Particle());
-            }
-        }
-        
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-                particlesArray[i].draw();
-            }
-            requestAnimationFrame(animateParticles);
-        }
-        initParticles();
+        for (let i = 0; i < 50; i++) particlesArray.push(new Particle());
+        function animateParticles() { ctx.clearRect(0, 0, canvas.width, canvas.height); particlesArray.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animateParticles); }
         animateParticles();
 
-        // --- CORE APPLICATION SWITCH CONTROLS ---
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-
             document.getElementById(tabId).classList.add('active');
             const targetBtn = Array.from(document.querySelectorAll('.tab-btn')).find(btn => btn.getAttribute('onclick').includes(tabId));
             if(targetBtn) targetBtn.classList.add('active');
@@ -577,47 +430,56 @@
             document.getElementById("nav-dash").style.display = "none";
             switchTab('login-tab');
             document.getElementById("name-input").value = "";
-            document.getElementById("password-input").value = "QWqw1234@";
         }
 
         function initializeStudentDashboard() {
             if(!activeSessionUser) return;
 
+            // Welcome Text Configuration Setup Formulations
             const welcomeText = document.getElementById("welcome-message");
-            const currentHour = new Date().getHours();
-            let dayGreeting = "Hello";
-            if (currentHour < 12) dayGreeting = "Good Morning";
-            else if (currentHour < 17) dayGreeting = "Good Afternoon";
-            else dayGreeting = "Good Evening";
+            welcomeText.innerText = `Welcome Back, ${activeSessionUser.fullName}!`;
+            document.getElementById("student-roll-label").innerText = `Roll No: ${activeSessionUser.roll} | BSc IT Profile Logs`;
 
-            welcomeText.innerText = `${dayGreeting}, ${activeSessionUser.fullName}!`;
-            document.getElementById("student-roll-label").innerText = `Roll No: ${activeSessionUser.roll} | BSc IT Student`;
+            // 🌟 TOPPER CONGRATULATIONS VS FAILED ALERTS EVALUATION LOGIC 🌟
+            const intelligenceBanner = document.getElementById("intelligence-banner-hook");
+            if (activeSessionUser.isTopper) {
+                intelligenceBanner.className = "alert-banner-box alert-success";
+                intelligenceBanner.innerHTML = `<i class="fa-solid fa-trophy"></i> <span><strong>Congratulations! 🎉</strong> Aap is batch ke topper hain! Aapki hardwork sach me outstanding hai. Keep rocking!</span>`;
+                intelligenceBanner.style.display = "flex";
+            } else if (activeSessionUser.isFailed) {
+                intelligenceBanner.className = "alert-banner-box alert-danger";
+                intelligenceBanner.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> <span><strong>Danger Alert! ⚠️</strong> Critical academic status warning tracking index registers critical clearance. Management meeting mandatory.</span>`;
+                intelligenceBanner.style.display = "flex";
+            } else {
+                intelligenceBanner.style.display = "none";
+            }
 
+            // CGPA Tracker Setup formulation
             document.getElementById("student-cgpa").innerText = activeSessionUser.cgpa.toFixed(2);
             const remarksText = document.getElementById("cgpa-remarks");
-            if(activeSessionUser.cgpa >= 9.0) { remarksText.innerText = "Outstanding!"; remarksText.style.color = "var(--success-color)"; }
-            else if(activeSessionUser.cgpa >= 8.0) { remarksText.innerText = "Excellent!"; remarksText.style.color = "var(--primary-glow)"; }
-            else { remarksText.innerText = "Good Performance"; remarksText.style.color = "var(--warning-color)"; }
+            remarksText.innerText = activeSessionUser.cgpa >= 8.5 ? "Status: Outstanding Performance" : "Status: Regular Standing Clear";
+            remarksText.style.color = activeSessionUser.cgpa >= 7.5 ? "var(--primary-glow)" : "var(--warning-color)";
 
+            // 🌟 DYNAMIC FEES LEDGER PARSING ENGINE 🌟
+            const tuitionBox = document.getElementById("fee-status-tuition");
+            tuitionBox.innerText = activeSessionUser.tuitionFee;
+            tuitionBox.className = `status-pill ${activeSessionUser.tuitionFee === 'Paid' ? 'pill-paid' : 'pill-pending'}`;
+
+            const examBox = document.getElementById("fee-status-exam");
+            examBox.innerText = activeSessionUser.examFee;
+            examBox.className = `status-pill ${activeSessionUser.examFee === 'Paid' ? 'pill-paid' : 'pill-pending'}`;
+
+            // Reset circular animation arrays parameters
             if(graphAnimationTracker) clearInterval(graphAnimationTracker);
-
             const circle = document.querySelector(".circular-progress");
             const numberMetric = document.querySelector(".progress-value");
             const statusTag = document.getElementById("status-tag");
 
             let currentLoop = 0;
             const targetVal = activeSessionUser.attendance;
-            let dynamicColor = "var(--warning-color)";
-
-            if(targetVal < 75) {
-                dynamicColor = "var(--danger-color)";
-                statusTag.innerText = "Shortage Alert! (Critical)";
-                statusTag.style.color = "var(--danger-color)";
-            } else {
-                dynamicColor = targetVal >= 88 ? "var(--success-color)" : "var(--primary-glow)";
-                statusTag.innerText = "Attendance Status: Safe Zone";
-                statusTag.style.color = dynamicColor;
-            }
+            let dynamicColor = targetVal >= 75 ? "var(--primary-glow)" : "var(--danger-color)";
+            statusTag.innerText = targetVal >= 75 ? "Status: Attendance Clear" : "Status: Defaulter Risk Bound";
+            statusTag.style.color = dynamicColor;
 
             if(targetVal > 0) {
                 graphAnimationTracker = setInterval(() => {
@@ -625,26 +487,15 @@
                     numberMetric.textContent = `${currentLoop}%`;
                     circle.style.background = `conic-gradient(${dynamicColor} ${currentLoop * 3.6}deg, #131b2e 0deg)`;
                     if(currentLoop === targetVal) clearInterval(graphAnimationTracker);
-                }, 15);
-            } else {
-                numberMetric.textContent = `0%`;
-                circle.style.background = `conic-gradient(var(--danger-color) 0deg, #131b2e 0deg)`;
+                }, 12);
             }
         }
 
         document.getElementById("speak-btn").addEventListener("click", () => {
             if(!activeSessionUser) return;
             window.speechSynthesis.cancel();
-            
-            const hours = new Date().getHours();
-            let greet = "Hello";
-            if (hours < 12) greet = "Good Morning";
-            else if (hours < 17) greet = "Good Afternoon";
-            else greet = "Good Evening";
-
-            const speechObj = new SpeechSynthesisUtterance(`${greet} ${activeSessionUser.fullName}. Welcome to your dashboard.`);
-            speechObj.rate = 0.95;
-            window.speechSynthesis.speak(speechObj);
+            const textAudio = new SpeechSynthesisUtterance(`Hello ${activeSessionUser.fullName}. Your evaluation parameters dashboard records show tuition verification logs status as ${activeSessionUser.tuitionFee}.`);
+            window.speechSynthesis.speak(textAudio);
         });
     </script>
 </body>
