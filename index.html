@@ -3,393 +3,373 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shri G.P.M Degree College. | Professional Suite</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <title>SGRPG Elite Portal</title>
+    <!-- FontAwesome Icons for modern looks -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        :root { 
-            --primary: #020617; 
-            --accent: #6366f1; 
-            --neon: #00f2ff; 
-            --bg: radial-gradient(circle at top, #1a103c, #020617); 
-            --card-bg: rgba(30, 41, 59, 0.45);
-            --text: #ffffff;
-            --danger: #ff4757; 
-            --success: #2ed573; 
-            --border: rgba(255,255,255,0.08);
-            --input-bg: rgba(0,0,0,0.5);
-            --card-shadow: rgba(0, 0, 0, 0.6);
+        /* Modern CSS Variables & Reset */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            --bg-dark: #0f172a;
+            --card-bg: rgba(255, 255, 255, 0.06);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --success-color: #2ed573;
+            --warning-color: #ffa502;
+            --danger-color: #ff4757;
         }
 
-        [data-theme="light"] {
-            --primary: #f8fafc;
-            --accent: #4f46e5;
-            --neon: #0ea5e9;
-            --bg: radial-gradient(circle at top, #e0e7ff, #f1f5f9);
-            --card-bg: rgba(255, 255, 255, 0.82);
-            --text: #0f172a;
-            --border: rgba(79, 70, 229, 0.15);
-            --input-bg: #ffffff;
-            --card-shadow: rgba(79, 70, 229, 0.08);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(0, 242, 254, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(79, 172, 254, 0.1) 0px, transparent 50%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--primary); }
-        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--neon); }
+        /* Portal Main Container */
+        .portal-container {
+            width: 100%;
+            max-width: 850px;
+        }
 
-        #bgCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
+        .portal-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
-        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #020617; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .spinner { width: 65px; height: 65px; border: 4px solid rgba(0, 242, 255, 0.1); border-top: 4px solid var(--neon); border-radius: 50%; animation: spin 1s infinite linear; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .portal-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
 
-        .ticker { background: linear-gradient(90deg, #1e1b4b, var(--accent)); color: white; padding: 12px 0; overflow: hidden; font-size: 11px; font-weight: 800; border-bottom: 2px solid var(--neon); box-shadow: 0 5px 25px rgba(0,0,0,0.4); z-index: 10; position: relative; }
-        .ticker-move { display: inline-block; white-space: nowrap; animation: move 35s linear infinite; }
-        @keyframes move { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+        .portal-header p {
+            color: var(--text-muted);
+            margin-top: 5px;
+            font-size: 1rem;
+        }
 
-        nav { background: rgba(2, 6, 23, 0.75); backdrop-filter: blur(25px); padding: 15px 6%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border); }
-        [data-theme="light"] nav { background: rgba(255, 255, 255, 0.78); }
-        
-        .container { padding: 40px 6%; max-width: 1300px; margin: auto; }
-        
-        .reveal { opacity: 0; transform: translateY(30px) scale(0.98); transition: opacity 0.6s cubic-bezier(0.1, 1, 0.1, 1), transform 0.6s cubic-bezier(0.1, 1, 0.1, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0) scale(1); }
+        /* Glassmorphic Dashboard Card */
+        .dashboard-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 35px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-        .page { display: none; opacity: 0; }
-        .page.active { display: block; opacity: 1; }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(0, 242, 254, 0.15);
+        }
 
-        .card { background: var(--card-bg); backdrop-filter: blur(15px); padding: 35px; border-radius: 30px; border: 1px solid var(--border); margin-bottom: 30px; box-shadow: 0 15px 35px var(--card-shadow); transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .card:hover { border-color: var(--neon); transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0, 242, 255, 0.12); }
+        /* Greeting Section */
+        .greeting-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
 
-        .btn-neon { background: var(--accent); color: white; border: none; padding: 16px 36px; border-radius: 18px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 12px; letter-spacing: 1.5px; box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
-        .btn-neon:hover { background: var(--neon); color: black; box-shadow: 0 0 35px var(--neon); transform: translateY(-2px); }
+        .greeting-text h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
 
-        .theme-toggle { background: var(--card-bg); border: 1px solid var(--border); color: var(--text); padding: 10px 22px; border-radius: 50px; font-weight: 800; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-        
-        .fingerprint-container { width: 95px; height: 95px; margin: 25px auto; border: 2px solid var(--neon); border-radius: 28px; position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; background: rgba(0, 242, 255, 0.02); }
-        .laser { width: 100%; height: 3px; background: var(--neon); box-shadow: 0 0 15px var(--neon); position: absolute; top: 0; display: none; animation: moveLaser 1.8s infinite linear; }
-        @keyframes moveLaser { 0% { top: 0%; } 50% { top: 100%; } 100% { top: 0%; } }
+        .greeting-text p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
 
-        input { width: 100%; padding: 18px; margin-top: 15px; border-radius: 18px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text); outline: none; font-size: 15px; }
-        input:focus { border-color: var(--neon); }
+        /* Futuristic Glow Button */
+        .btn-glow {
+            background: var(--primary-gradient);
+            border: none;
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+            transition: all 0.3s ease;
+        }
 
-        .badge { display: inline-block; padding: 8px 22px; border-radius: 50px; font-weight: 800; font-size: 11px; text-transform: uppercase; }
-        .pass { background: rgba(46, 213, 115, 0.15); color: var(--success); border: 1px solid var(--success); }
-        .fail { background: rgba(255, 71, 87, 0.15); color: var(--danger); border: 1px solid var(--danger); }
+        .btn-glow:hover {
+            box-shadow: 0 0 35px rgba(0, 242, 254, 0.7);
+            transform: scale(1.03);
+        }
 
-        #clock { color: var(--neon); font-weight: 800; border: 1px solid var(--neon); padding: 6px 20px; border-radius: 50px; font-size: 13px; background: rgba(0,0,0,0.1); }
-        footer { padding: 60px 20px; text-align: center; opacity: 0.7; font-size: 12px; letter-spacing: 2.5px; border-top: 1px solid var(--border); margin-top: 60px; }
-        
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+        .btn-glow i {
+            font-size: 1.1rem;
+        }
+
+        .divider {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%);
+            margin: 30px 0;
+        }
+
+        /* Attendance Section Layout */
+        .attendance-section h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #e2e8f0;
+        }
+
+        .attendance-grid {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        /* Circular Progress Animation Wrapper */
+        .progress-wrapper {
+            position: relative;
+        }
+
+        .circular-progress {
+            position: relative;
+            height: 140px;
+            width: 140px;
+            border-radius: 50%;
+            background: conic-gradient(var(--primary-gradient) 0deg, #1e293b 0deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.2);
+        }
+
+        .circular-progress::before {
+            content: "";
+            position: absolute;
+            height: 112px;
+            width: 112px;
+            border-radius: 50%;
+            background-color: #111827;
+        }
+
+        .progress-value {
+            position: relative;
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        /* Info Block */
+        .status-info {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .status-tag {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .status-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .status-desc strong {
+            color: #ffffff;
+        }
+
+        /* Footer styling inside card */
+        .dashboard-footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Responsive Design Rules */
+        @media (max-width: 600px) {
+            .greeting-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .btn-glow {
+                width: 100%;
+                justify-content: center;
+            }
+            .attendance-grid {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div id="preloader">
-        <div class="spinner"></div>
-        <p style="color: var(--neon); font-weight: 800; font-size: 12px; letter-spacing: 3px; margin-top: 25px;" id="preloadText">CONNECTING SECURE NET NODES...</p>
-    </div>
-
-    <canvas id="bgCanvas"></canvas>
-
-    <div class="ticker">
-        <div class="ticker-move" id="liveTickerText">
-            🔄 SHRI G.P.M. DEGREE COLLEGE SECURE INTERACTION CONSOLE RUNNING AT HIGH PRIORITY DEPTH...
-        </div>
-    </div>
-
-    <nav id="navbar">
-        <div style="display:flex; align-items:center; gap:14px; cursor:pointer;" onclick="location.reload()">
-            <img id="navLogo" src="" width="48" height="48" style="border-radius:50%; border:2px solid var(--neon); object-fit: cover;">
-            <p id="navTitle" style="font-weight:900; color:var(--neon); letter-spacing:1.5px; font-size:17px; text-transform: uppercase;"></p>
-        </div>
-        <div style="display: flex; align-items: center; gap: 15px;">
-            <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙 NIGHT</button>
-            <div id="clock">00:00:00</div>
-        </div>
-    </nav>
-
-    <div class="container">
-        <!-- 1. HOME HUB ENTRY PAGE -->
-        <div id="homePage" class="page active">
-            <div class="card" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(30, 41, 59, 0.7)); padding: 90px 30px; border: 1px solid rgba(99, 102, 241, 0.3); text-align: center;">
-                <h1 id="greetTitle" style="font-size: 45px; color:var(--neon); margin-bottom:15px; font-weight:800; text-shadow: 0 0 25px rgba(0, 242, 255, 0.3);">LOADING ENGINES...</h1>
-                <p id="homeSubTitle" style="margin-bottom: 40px; opacity: 0.85; font-size: 19px; max-width: 700px; margin-left: auto; margin-right: auto;"></p>
-                <button class="btn-neon" onclick="playClick(); showPage('loginPage')">AUTHENTICATE ENTRY 🔒</button>
-            </div>
-            
-            <div class="grid-2" style="margin-top:10px;">
-                <div class="card reveal" onclick="playClick(); showPage('calendarPage')" style="cursor:pointer; text-align: center;"><p style="font-size:45px; margin-bottom:10px;">📅</p><h4>MUMBAI REGION CALENDAR</h4></div>
-                <div class="card reveal" onclick="playClick(); openCollegeMap()" style="cursor:pointer; text-align: center;"><p style="font-size:45px; margin-bottom:10px;">📍</p><h4>CAMPUS GEOLOCATION MAP</h4></div>
-            </div>
+    <div class="portal-container">
+        <!-- Main College Branding Header -->
+        <div class="portal-header">
+            <h1>SGRPG Elite Portal</h1>
+            <p>Shri GPM Degree College - Student Management Console</p>
         </div>
 
-        <!-- IDENTITY PROTECTION CHECK -->
-        <div id="loginPage" class="page">
-            <div class="card" style="max-width: 480px; margin: auto; border: 2px solid var(--neon);">
-                <h2 style="color:var(--neon); margin-bottom:15px; letter-spacing:2px; text-align: center; font-size:22px;">IDENTITY VERIFICATION</h2>
-                <div class="fingerprint-container" onclick="startScan()">
-                    <div class="laser" id="laser"></div>
-                    <span style="font-size:48px;">🖐️</span>
+        <!-- Dynamic Content Card -->
+        <div class="dashboard-card">
+            <!-- Top Section: Dynamic Greetings -->
+            <div class="greeting-section">
+                <div class="greeting-text">
+                    <h2 id="welcome-message">Loading Information...</h2>
+                    <p>Aapke academic dashboard me aapka swagat hai.</p>
                 </div>
-                <p id="fpStatus" style="font-size:11px; color:var(--neon); font-weight:800; margin-bottom:20px; letter-spacing:1.5px; text-align: center;">[ TAP SYSTEM INTERFACE TO COMPUTE DATA ]</p>
-                <input type="text" id="userInput" placeholder="Student Full Name (e.g., Sumit Singh)">
-                <input type="password" id="passInput" placeholder="Security Encryption Key">
-                <button class="btn-neon" style="width:100%; margin-top:35px; padding:18px; font-size:13px;" onclick="handleLogin()">RUN SECURITY DIAGNOSTIC</button>
-                <p id="err" style="color:var(--danger); display:none; margin-top:20px; font-weight:800; text-align: center;">❌ AUTHENTICATION ANOMALY: DATA MATCH EXCEPTION</p>
+                <button id="speak-btn" class="btn-glow">
+                    <i class="fas fa-volume-high"></i> Listen Assistant
+                </button>
             </div>
-        </div>
 
-        <!-- PREMIUM SCORECARD HUB -->
-        <div id="dashPage" class="page">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:35px; flex-wrap: wrap; gap:15px;">
-                <h2 id="welcomeUser" style="color:var(--neon); font-size: 32px; font-weight: 800;">-</h2>
-                <button class="btn-neon" style="background:var(--danger); padding:12px 24px;" onclick="location.reload()">TERMINATE SYSTEM SESSION</button>
-            </div>
-            <div class="card reveal">
-                <div style="display:flex; justify-content:space-around; align-items:center; margin-bottom:30px; flex-wrap: wrap; gap:20px;">
-                    <div><p style="font-size:11px; color:var(--neon); letter-spacing:2.5px; font-weight:800; margin-bottom:5px;">METRIC PERFORMANCE PROFILE (GPA)</p><h2 id="sGPA" style="font-size:55px; font-weight:800;">0.0</h2></div>
-                    <div id="resBadge" class="badge" style="font-size:13px; padding:12px 35px;">-</div>
-                </div>
-                <div style="text-align:left; background: rgba(0,0,0,0.1); padding: 25px; border-radius: 20px; border: 1px solid var(--border)">
-                    <p style="font-size:13px; font-weight:800; letter-spacing:0.5px;">ATTENDANCE VALUE ANALYSIS: <span id="sAttText" style="color:var(--neon); font-size:16px;">0%</span></p>
-                    <div style="width:100%; height:12px; background:rgba(0,0,0,0.06); border-radius:20px; overflow:hidden; margin-top:12px;">
-                        <div id="barFill" style="height:100%; background: linear-gradient(90deg, var(--accent), var(--neon)); width:0; box-shadow: 0 0 20px var(--neon);"></div>
+            <hr class="divider">
+
+            <!-- Middle Section: Realtime Visual Tracker -->
+            <div class="attendance-section">
+                <h3>Live Attendance Metric</h3>
+                
+                <div class="attendance-grid">
+                    <!-- Dynamic Circle Pointer -->
+                    <div class="progress-wrapper">
+                        <div class="circular-progress">
+                            <span class="progress-value">0%</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Text updates depending on dynamic code calculations -->
+                    <div class="status-info">
+                        <div id="status-tag" class="status-tag">Analyzing data...</div>
+                        <p class="status-desc">
+                            Aapki current attendance system database se sync ho gayi hai. University norms ke mutabik exams me baithne ke liye minimum <strong>75% attendance</strong> mandatory hai.
+                        </p>
                     </div>
                 </div>
             </div>
-            <div class="card reveal">
-                <h3 style="color:var(--neon); margin-bottom:22px; border-bottom:1px solid var(--border); padding-bottom:12px; font-size:18px; letter-spacing:1px;">FINANCIAL METRIC LOG SHEET</h3>
-                <div style="display: flex; flex-direction: column; gap: 12px;">
-                    <p style="font-size:17px;">Cleared Transactions: <b id="sPaid" style="color:var(--success)">-</b></p>
-                    <p style="font-size:17px;">Pending Institutional Liability: <b id="sDue" style="color:var(--danger)">-</b></p>
-                </div>
-            </div>
-            <button class="btn-neon reveal" style="width:100%; background: var(--primary); border: 1px solid var(--neon);" onclick="showPage('calendarPage')">LAUNCH REGIONAL SCHEDULES 📅</button>
-        </div>
 
-        <!-- HIGH PROFILE CAMPUS DIARY -->
-        <div id="calendarPage" class="page">
-            <button class="btn-neon" onclick="playClick(); showPage('homePage')" style="margin-bottom:30px; background:#334155; box-shadow:none;">← BOOT RETURN PATH</button>
-            <div class="card">
-                <h2 style="color:var(--neon); margin-bottom:25px; border-bottom:2px solid var(--accent); padding-bottom:15px; letter-spacing:1px;" id="calendarTitle">MUMBAI CAMPUS REGIONAL DIARY</h2>
-                <div style="display:grid; gap:16px; text-align: left;">
-                    <p class="reveal" style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--neon);">🌴 <b>JAN 26:</b> Republic Day (National Holiday) 🇮🇳</p>
-                    <p class="reveal" style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--accent);">🗓️ <b>FEB 19:</b> Chhatrapati Shivaji Maharaj Jayanti (Maharashtra State Festival) 🚩</p>
-                    <p class="reveal" style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--accent);">🌴 <b>MARCH:</b> Mahashivratri & Holi Milan Break 🎨</p>
-                    <p class="reveal" style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--neon);">🗓️ <b>APRIL 01:</b> Gudi Padwa (Maharashtra New Year Academic Off) ✨</p>
-                    <p class="reveal" style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--accent);">📝 <b>MAY 01:</b> Maharashtra Day / Lab Practical Examinations Start 🏛️</p>
-                    <p class="reveal" style="padding:18px; background:rgba(0,0,0,0.02); border-radius:16px; border-left: 5px solid var(--danger);">🚨 <b>SEPTEMBER:</b> Ganeshotsav Mid-Term Institutional Vacation 🌺</p>
-                </div>
+            <!-- Bottom Disclaimer section -->
+            <div class="dashboard-footer">
+                <p><i class="fa-solid fa-shield-halved"></i> Secured Student Session | Authorized Access Only</p>
             </div>
         </div>
     </div>
 
-    <footer>
-        <p>SYSTEM CORE DESIGN COMPILED AND OPERATED FOR <b style="color:var(--neon); letter-spacing:3px;">SUMIT SINGH</b></p>
-        <p style="font-size:11px; opacity:0.6; margin-top:12px; letter-spacing:1.5px;" id="footerCollegeName"></p>
-    </footer>
-
+    <!-- Active Logic JavaScript Engine -->
     <script>
-        // 🛠️ REBRANDING CONFIGURATION - TARGET FILE DIRECT PATH LOCKED VERBATIM
-        const COLLEGE_CONFIG = {
-            name: "Shri G.P.M. Degree College", 
-            logoUrl: "logo.gif/sumit college logo _2.jpeg", // Target referenced file verbatim!
-            mapsLink: "https://www.google.com/maps/search/Shri+G.P.M.+Degree+College+Andheri+Mumbai"
-        };
+        document.addEventListener("DOMContentLoaded", () => {
+            // Student State Object (Aap is object me real analytics replace kar sakte hain)
+            const activeUser = {
+                firstName: "Sumit Singh",
+                attendance: 78 // Try changing this value to test colors (e.g. 65, 80, 92)
+            };
 
-        const MASTER_PASS = "QWqw1234@";
-        const database = {
-            "sumit singh": { name: "Sumit Singh", gpa: "9.8", att: 99, status: "PASS", paid: "₹30,000", due: "₹0" },
-            "radha": { name: "Radha", gpa: "9.6", att: 95, status: "PASS", paid: "₹25,000", due: "₹5,000" },
-            "akanksha": { name: "Akanksha", gpa: "9.4", att: 92, status: "PASS", paid: "₹20,000", due: "₹10,000" },
-            "sharib": { name: "Sharib", gpa: "8.9", att: 87, status: "PASS", paid: "₹18,000", due: "₹12,000" },
-            "zaid": { name: "Zaid", gpa: "8.5", att: 84, status: "PASS", paid: "₹22,000", due: "₹8,000" },
-            "shareen": { name: "Shareen", gpa: "7.8", att: 79, status: "PASS", paid: "₹15,000", due: "₹15,000" },
-            "vidhi": { name: "Vidhi", gpa: "9.1", att: 90, status: "PASS", paid: "₹28,000", due: "₹2,000" },
-            "meeraj": { name: "Meeraj", gpa: "3.4", att: 42, status: "FAIL", paid: "₹4,000", due: "₹26,000" }
-        };
+            // 1. Time Context Logic Formulation
+            const welcomeElement = document.getElementById("welcome-message");
+            const currentHour = new Date().getHours();
+            let contextualGreeting = "Hello";
 
-        // Canvas Particle Engine
-        const canvas = document.getElementById('bgCanvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 3 + 1;
-                this.speedX = Math.random() * 0.5 - 0.25;
-                this.speedY = Math.random() * 0.5 - 0.25;
-            }
-            update() {
-                this.x += this.speedX; this.y += this.speedY;
-                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
-                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
-            }
-            draw() {
-                ctx.fillStyle = document.body.hasAttribute('data-theme') ? 'rgba(79, 70, 229, 0.2)' : 'rgba(0, 242, 255, 0.25)';
-                ctx.fillRect(this.x, this.y, this.size, this.size);
-            }
-        }
-        for (let i = 0; i < 65; i++) particles.push(new Particle());
-        function animateParticles() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animateParticles); }
-        animateParticles();
-
-        // Optimized Reveal Engine on Scroll
-        function revealElements() {
-            const reveals = document.querySelectorAll('.reveal');
-            reveals.forEach(r => {
-                const windowHeight = window.innerHeight;
-                const elementTop = r.getBoundingClientRect().top;
-                if (elementTop < windowHeight - 80) r.classList.add('active');
-            });
-        }
-        window.addEventListener('scroll', revealElements);
-
-        // Preloader Logic
-        window.addEventListener('load', () => {
-            const strings = ["INITIALIZING SECURITY MATRICES...", "LINKING MUMBAI CONSOLES...", "SYSTEM ONLINE NOW."];
-            let step = 0;
-            const textInterval = setInterval(() => {
-                if(step < strings.length) document.getElementById('preloadText').innerText = strings[step++];
-            }, 400);
-
-            setTimeout(() => {
-                clearInterval(textInterval);
-                const p = document.getElementById('preloader');
-                p.style.opacity = '0';
-                p.style.transition = '0.4s';
-                setTimeout(() => p.style.display = 'none', 400);
-                revealElements();
-            }, 1400);
-        });
-
-        function toggleTheme() {
-            const currentTheme = document.body.getAttribute('data-theme');
-            const btn = document.getElementById('themeBtn');
-            if (currentTheme === 'light') {
-                document.body.removeAttribute('data-theme');
-                btn.innerText = "🌙 NIGHT";
+            if (currentHour < 12) {
+                contextualGreeting = "Good Morning";
+            } else if (currentHour < 17) {
+                contextualGreeting = "Good Afternoon";
             } else {
-                document.body.setAttribute('data-theme', 'light');
-                btn.innerText = "☀️ DAY";
+                contextualGreeting = "Good Evening";
             }
-            playClick();
-        }
 
-        function setupRebranding() {
-            document.getElementById('navTitle').innerText = COLLEGE_CONFIG.name;
-            document.getElementById('navLogo').src = COLLEGE_CONFIG.logoUrl;
-            document.getElementById('homeSubTitle').innerText = `Elite Production Core Suite optimized for ${COLLEGE_CONFIG.name} Architecture Framework.`;
-            document.getElementById('footerCollegeName').innerText = `${COLLEGE_CONFIG.name.toUpperCase()} | ANDHERI DISPATCH NODE`;
-            document.getElementById('liveTickerText').innerHTML = `🔥 ENGINE REPORT: Navigation Core Stable | Linked to ${COLLEGE_CONFIG.name} Hub Node.`;
-        }
+            const completeGreetingString = `${contextualGreeting}, ${activeUser.firstName}!`;
+            welcomeElement.innerText = completeGreetingString;
 
-        // Standard Dynamic Routing Mechanism (Fixed Sticking Bug)
-        function showPage(id) {
-            document.querySelectorAll('.page').forEach(p => {
-                p.classList.remove('active');
-                p.style.display = 'none';
-            });
-            const activePage = document.getElementById(id);
-            activePage.style.display = 'block';
-            // Force browser layout processing before active fade-in rule
-            setTimeout(() => {
-                activePage.classList.add('active');
-                revealElements();
-            }, 50);
-            window.scrollTo(0,0);
-        }
-
-        function openCollegeMap() { window.open(COLLEGE_CONFIG.mapsLink); }
-        function speak(t) { const u = new SpeechSynthesisUtterance(t); u.rate = 1.05; window.speechSynthesis.speak(u); }
-        
-        let audioInit = false;
-        function initAudio() { if(!audioInit) { speak(`System Online.`); audioInit = true; } }
-        
-        function playClick() {
-            const context = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = context.createOscillator();
-            const gain = context.createGain();
-            osc.frequency.setValueAtTime(640, context.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.1);
-            osc.connect(gain); gain.connect(context.destination);
-            osc.start(); osc.stop(context.currentTime + 0.1);
-        }
-
-        function startScan() {
-            playClick();
-            const l = document.getElementById('laser');
-            l.style.display = 'block';
-            document.getElementById('fpStatus').innerText = "[ EVALUATING SCHEMATICS... ]";
-            speak("Evaluating signature.");
-            setTimeout(() => { 
-                l.style.display = 'none'; 
-                document.getElementById('fpStatus').innerText = "[ CORE KEY APPROVED ✅ ]"; 
-                speak("Access sequence complete."); 
-            }, 2300);
-        }
-
-        function handleLogin() {
-            const name = document.getElementById('userInput').value.toLowerCase().trim();
-            const pass = document.getElementById('passInput').value;
-            if (database[name] && pass === MASTER_PASS) {
-                const s = database[name];
-                document.getElementById('welcomeUser').innerText = "Console Core User: " + s.name;
-                document.getElementById('sGPA').innerText = s.gpa;
-                document.getElementById('sPaid').innerText = s.paid;
-                document.getElementById('sDue').innerText = s.due;
-                document.getElementById('sAttText').innerText = s.att + "%";
-                const b = document.getElementById('resBadge');
-                b.innerText = s.status; b.className = "badge " + (s.status === "PASS" ? "pass" : "fail");
+            // 2. Intelligent AI Speech Processing Engine
+            const voiceTrigger = document.getElementById("speak-btn");
+            voiceTrigger.addEventListener("click", () => {
+                // Cancel ongoing voice cues to eliminate overlapping audio arrays
+                window.speechSynthesis.cancel();
                 
-                showPage('dashPage');
-                speak("Welcome back " + s.name);
-                if(s.gpa > 9.5 || name === "sumit singh") { 
-                    confetti({ particleCount: 160, spread: 85, origin: { y: 0.55 } }); 
-                    if(name === "sumit singh") {
-                        speak("System log notification. Congratulations Sumit! You are the Department Topper.");
-                    }
-                }
-                setTimeout(() => {
-                    document.getElementById('barFill').style.transition = "width 2s cubic-bezier(0.1, 1, 0.1, 1)";
-                    document.getElementById('barFill').style.width = s.att + "%";
-                }, 600);
-            } else { 
-                document.getElementById('err').style.display = 'block'; 
-                speak("Anomaly alert. Verification fail."); 
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            setupRebranding();
-            document.getElementById('userInput').addEventListener("keypress", function(e) {
-                if (e.key === "Enter") { handleLogin(); }
+                const speechModule = new SpeechSynthesisUtterance();
+                speechModule.text = `${completeGreetingString}. Welcome back to Shri GPM Elite Portal. Your consolidated class attendance is registered at ${activeUser.attendance} percent.`;
+                speechModule.volume = 1;
+                speechModule.rate = 0.92; // Optimized clear tone pace
+                speechModule.pitch = 1.05; // Slightly fine tuned high clarity pitch
+                
+                window.speechSynthesis.speak(speechModule);
             });
-        });
 
-        function updateTime() {
-            const now = new Date();
-            document.getElementById('clock').innerText = now.toLocaleTimeString();
-            const hour = now.getHours();
-            let greet = "SYSTEM INTERFACE SECURITY LAYER";
-            if (hour >= 5 && hour < 12) greet = "GOOD MORNING MAIN RUN TIME";
-            else if (hour >= 12 && hour < 17) greet = "GOOD AFTERNOON PROCESS LAYER";
-            else if (hour >= 17 && hour < 22) greet = "GOOD EVENING TERMINAL LAYER";
-            document.getElementById('greetTitle').innerText = greet + " ✨";
-            setTimeout(updateTime, 1000);
-        }
-        updateTime();
+            // 3. Mathematical Vector Formulation For Circular Graph Ring
+            const progressCircle = document.querySelector(".circular-progress");
+            const valueIndicator = document.querySelector(".progress-value");
+            const literalStatusTag = document.getElementById("status-tag");
+
+            let animationCounter = 0;
+            const targetMetric = activeUser.attendance;
+            const operationalSpeed = 18; // Speed variable in milliseconds
+
+            // Style Evaluation Hierarchy Tree
+            let computedHexColor = "var(--danger-color)"; // Under 75% fallback
+            
+            if (targetMetric >= 88) {
+                computedHexColor = "var(--success-color)";
+                literalStatusTag.innerText = "Status: Outstanding Performance!";
+                literalStatusTag.style.color = "var(--success-color)";
+            } else if (targetMetric >= 75) {
+                computedHexColor = "var(--warning-color)";
+                literalStatusTag.innerText = "Status: Safe Zone (Eligible)";
+                literalStatusTag.style.color = "var(--warning-color)";
+            } else {
+                literalStatusTag.innerText = "Status: Critical Shortage Warning!";
+                literalStatusTag.style.color = "var(--danger-color)";
+            }
+
+            // Execute Linear Vector Iteration Loop
+            if (targetMetric > 0) {
+                let animationInterval = setInterval(() => {
+                    animationCounter++;
+                    valueIndicator.textContent = `${animationCounter}%`;
+                    
+                    // Maps percentage metric calculations linearly against 360 geometry layout spaces
+                    progressCircle.style.background = `conic-gradient(${computedHexColor} ${animationCounter * 3.6}deg, #1e293b 0deg)`;
+                    
+                    if (animationCounter === targetMetric) {
+                        clearInterval(animationInterval);
+                    }
+                }, operationalSpeed);
+            } else {
+                valueIndicator.textContent = `0%`;
+                progressCircle.style.background = `conic-gradient(var(--danger-color) 0deg, #1e293b 0deg)`;
+            }
+        });
     </script>
 </body>
 </html>
